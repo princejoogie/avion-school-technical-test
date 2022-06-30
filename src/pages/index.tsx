@@ -6,6 +6,32 @@ import { useMutation, useQuery } from "react-query";
 import { Container } from "@/components/container";
 import { TournamentService } from "@/services/tournaments";
 import { queryClient } from "@/pages/_app";
+import { Tournaments } from "@/services/tournaments/get-all";
+
+const TournamentItem = ({ tournament }: Tournaments[number]) => {
+  const deleteTournament = useMutation(TournamentService.deleteTournament, {
+    onSuccess: () => queryClient.invalidateQueries("tournaments"),
+  });
+
+  return (
+    <div>
+      <li key={tournament.id}>
+        ({tournament.id}): {tournament.name} - {tournament.state}
+      </li>
+
+      <button
+        type="button"
+        onClick={() => {
+          deleteTournament.mutate({
+            id: `${tournament.id}`,
+          });
+        }}
+      >
+        Delete
+      </button>
+    </div>
+  );
+};
 
 const Home: NextPage = () => {
   const tournaments = useQuery("tournaments", () =>
@@ -45,15 +71,7 @@ const Home: NextPage = () => {
         {tournaments.data ? (
           <ul>
             {tournaments.data.map(({ tournament }) => (
-              <li key={tournament.id}>
-                <a
-                  href={tournament.full_challonge_url}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {tournament.name} - {tournament.state}
-                </a>
-              </li>
+              <TournamentItem tournament={tournament} />
             ))}
           </ul>
         ) : (

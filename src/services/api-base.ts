@@ -16,6 +16,7 @@ export const serverRoutes = {
   tournaments: {
     getAll: "/tournaments.json",
     create: "/tournaments.json",
+    delete: (id: string) => `/tournaments/${id}.json`,
   },
 };
 
@@ -27,5 +28,6 @@ export const clientRoutes = {
   tournaments: {
     getAll: "/tournaments",
     create: "/tournaments",
+    delete: "/tournaments",
   },
 };
