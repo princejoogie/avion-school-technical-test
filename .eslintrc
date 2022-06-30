@@ -16,6 +16,8 @@
   "rules": {
     "arrow-body-style": "off",
     "prettier/prettier": "error",
+    "import/no-unresolved": "off",
+    "import/extensions": "off",
     "import/prefer-default-export": "off",
     "react/jsx-filename-extension": [1, { "extensions": [".tsx"] }],
     "react/prop-types": "off",
