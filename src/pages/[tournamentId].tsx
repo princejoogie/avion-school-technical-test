@@ -1,12 +1,13 @@
 /* eslint-disable no-nested-ternary */
-import React from "react";
+import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
-import { UsersIcon, PuzzleIcon } from "@heroicons/react/solid";
+import { UsersIcon, PuzzleIcon, ReceiptTaxIcon } from "@heroicons/react/solid";
 
 import { Layout } from "@/components";
 import { TournamentService } from "@/services/tournaments";
+import { Tab, tabs, TabSwitcher } from "@/components/tournaments/tabs/switcher";
 
 const TournamentPage: NextPage = () => {
   // url query params
@@ -47,6 +48,8 @@ const TournamentPage: NextPage = () => {
   const { name, participants_count, tournament_type, game_name } =
     tournament.data.tournament;
 
+  const [tab, setTab] = useState<Tab>("info");
+
   return (
     <Layout>
       <div className="flex my-10 items-center justify-between">
@@ -60,7 +63,7 @@ const TournamentPage: NextPage = () => {
             </div>
 
             <div className="flex items-center space-x-2">
-              <UsersIcon className="h-4 w-4" />
+              <ReceiptTaxIcon className="h-4 w-4" />
               <span className="mr-1 ml-3 capitalize">{tournament_type}</span>
             </div>
 
@@ -88,9 +91,28 @@ const TournamentPage: NextPage = () => {
         </button>
       </div>
 
-      <div className="w-full border-b pb-4">
-        <div>Nav</div>
+      <div className="w-full border-b mb-4 flex items-center space-x-1">
+        {tabs.map((t) => (
+          <button
+            type="button"
+            onClick={() => setTab(t)}
+            className={`-mb-1 group capitalize py-1 ${
+              t === tab ? "text-black" : "text-gray-600"
+            }`}
+          >
+            <p className="px-8">{t}</p>
+            <div
+              className={`transition-colors w-full h-1 ${
+                t === tab
+                  ? "bg-green-500"
+                  : "group-hover:bg-green-500/50 bg-transparent"
+              }`}
+            />
+          </button>
+        ))}
       </div>
+
+      <TabSwitcher activeTab={tab} />
     </Layout>
   );
 };
