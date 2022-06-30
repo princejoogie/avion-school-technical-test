@@ -33,7 +33,13 @@ export const getAllResponse = z.array(
         id: z.number(),
         live_image_url: z.string().url(),
         name: z.string(),
-        state: z.enum(["all", "pending", "in_progress", "complete"]),
+        state: z.enum([
+          "all",
+          "pending",
+          "underway",
+          "complete",
+          "awaiting_review",
+        ]),
         updated_at: z.string(),
         url: z.string(),
         // TODO: add more fields

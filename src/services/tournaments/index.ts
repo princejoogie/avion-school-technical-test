@@ -11,7 +11,8 @@ export const TournamentService = {
 export type TournamentState = Tournaments[number]["tournament"]["state"];
 export const tournamentStates: { value: TournamentState; label: string }[] = [
   { value: "all", label: "All" },
-  { value: "pending", label: "Pending" },
+  { value: "awaiting_review", label: "Awaiting Review" },
   { value: "complete", label: "Complete" },
-  { value: "in_progress", label: "In Progress" },
+  { value: "pending", label: "Pending" },
+  { value: "underway", label: "In Progress" },
 ];

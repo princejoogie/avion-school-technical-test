@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useMutation, useQuery } from "react-query";
@@ -50,14 +51,18 @@ const TournamentItem = ({ tournament }: Tournaments[number]) => {
 
 const Home: NextPage = () => {
   const [state, setState] = useState<TournamentState>("all");
-  const tournaments = useQuery("tournaments", () =>
-    TournamentService.getAll({
-      state: "all",
-    })
-  );
+  const tournaments = useQuery("tournaments", () => TournamentService.getAll());
   const create = useMutation(TournamentService.create, {
     onSuccess: () => queryClient.invalidateQueries("tournaments"),
   });
+
+  const filteredTournaments = tournaments.data
+    ?.filter((t) => t.tournament.state === state || state === "all")
+    .sort(
+      (a, b) =>
+        new Date(b.tournament.created_at).getTime() -
+        new Date(a.tournament.created_at).getTime()
+    );
 
   return (
     <Layout>
@@ -69,8 +74,8 @@ const Home: NextPage = () => {
           className="bg-green-500 text-white px-4 py-2 rounded"
           onClick={() => {
             create.mutate({
-              "tournament[name]": `Test Tournament ${new Date().getTime()}`,
-              "tournament[description]": "Test Tournament 2",
+              "tournament[name]": `Tournament ${new Date().toLocaleTimeString()}`,
+              "tournament[description]": "lorem ipsum",
               "tournament[open_signup]": true,
               "tournament[tournament_type]": "single elimination",
             });
@@ -82,21 +87,20 @@ const Home: NextPage = () => {
 
       <div className="flex items-start space-x-4">
         <div className="flex-1">
-          {tournaments.data ? (
-            <div className="flex flex-col space-y-4">
-              {tournaments.data
-                .sort(
-                  (a, b) =>
-                    new Date(b.tournament.updated_at).getTime() -
-                    new Date(a.tournament.updated_at).getTime()
-                )
-                .filter((t) => t.tournament.state === state || state === "all")
-                .map(({ tournament }) => (
+          {filteredTournaments ? (
+            filteredTournaments.length > 0 ? (
+              <div className="flex flex-col space-y-4">
+                {filteredTournaments.map(({ tournament }) => (
                   <TournamentItem key={tournament.id} tournament={tournament} />
                 ))}
-            </div>
+              </div>
+            ) : (
+              <p className="text-center text-gray-500">
+                No tournaments were found.
+              </p>
+            )
           ) : (
-            <p>Loading...</p>
+            <p className="text-center text-gray-500">Loading...</p>
           )}
         </div>
 
