@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const apiClient = axios.create({
+export const serverApi = axios.create({
   baseURL: "https://api.challonge.com/v1",
   params: {
     api_key: process.env.NEXT_PUBLIC_CHALLONGE_API_KEY,
@@ -12,6 +12,14 @@ export const apiClient = axios.create({
   },
 });
 
-export const apiRoutes = {
-  tournaments: "/api/tournaments",
+export const serverRoutes = {
+  tournaments: "/tournaments.json",
+};
+
+export const clientApi = axios.create({
+  baseURL: "/api",
+});
+
+export const clientRoutes = {
+  tournaments: "/tournaments",
 };

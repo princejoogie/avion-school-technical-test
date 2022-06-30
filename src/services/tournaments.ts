@@ -1,8 +1,6 @@
-// eslint-disable-next-line import/no-unresolved
 import { z } from "zod";
-import axios from "axios";
 
-import { apiRoutes } from "./api-client";
+import { clientRoutes, clientApi } from "./api-base";
 
 export const tournamentParameters = z
   .object({
@@ -34,9 +32,12 @@ export type Tournaments = z.infer<typeof tournamentOutput>;
 
 export const getTournaments = async (params?: TournamentParameters) => {
   try {
-    const response = await axios.get<Tournaments>(apiRoutes.tournaments, {
-      params,
-    });
+    const response = await clientApi.get<Tournaments>(
+      clientRoutes.tournaments,
+      {
+        params,
+      }
+    );
     return response.data;
   } catch (e) {
     const error = e as any;
