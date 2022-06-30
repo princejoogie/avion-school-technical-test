@@ -46,6 +46,9 @@ export const getAllResponse = z.array(
         ]),
         updated_at: z.string(),
         url: z.string(),
+        participants_count: z.number(),
+        completed_at: z.string().nullable(),
+        tournament_type: z.string(),
         // TODO: add more fields
       })
       // remove this if you want to strip out unknown properties
