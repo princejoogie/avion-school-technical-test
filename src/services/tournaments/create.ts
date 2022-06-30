@@ -5,7 +5,7 @@ import { z } from "zod";
 
 import { clientRoutes, clientApi } from "../api-base";
 
-import { tournamentResponse } from "./common";
+import { Tournament } from "./common";
 
 import { ErrorData } from "@/types";
 
@@ -21,13 +21,9 @@ export const createTournamentParams = z
 
 export type CreateTournamentParams = z.infer<typeof createTournamentParams>;
 
-export const createTournamentResponse = tournamentResponse;
-
-export type CreateTournamentResponse = z.infer<typeof createTournamentResponse>;
-
 export const create = async (params?: CreateTournamentParams) => {
   try {
-    const response = await clientApi.post<CreateTournamentResponse>(
+    const response = await clientApi.post<Tournament>(
       clientRoutes.tournaments.create,
       params
     );

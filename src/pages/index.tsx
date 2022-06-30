@@ -4,11 +4,11 @@ import type { NextPage } from "next";
 import { useMutation, useQuery } from "react-query";
 
 import { Layout } from "@/components";
+import { TournamentService } from "@/services/tournaments";
 import {
-  TournamentService,
   TournamentState,
   tournamentStates,
-} from "@/services/tournaments";
+} from "@/services/tournaments/common";
 import { queryClient } from "@/pages/_app";
 import { TournamentItem } from "@/components/tournaments";
 

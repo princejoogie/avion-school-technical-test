@@ -4,10 +4,8 @@ import { ZodError } from "zod";
 import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
-import {
-  getByIdParams,
-  getByIdResponse,
-} from "@/services/tournaments/get-by-id";
+import { getByIdParams } from "@/services/tournaments/get-by-id";
+import { tournamentResponse } from "@/services/tournaments/common";
 import { deleteTournamentParams } from "@/services/tournaments/delete";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -27,7 +25,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         serverRoutes.tournaments.getById(tournamentId),
         { params }
       );
-      const data = await getByIdResponse.parseAsync(response.data);
+      const data = await tournamentResponse.parseAsync(response.data);
       return res.status(200).json(data);
     }
 

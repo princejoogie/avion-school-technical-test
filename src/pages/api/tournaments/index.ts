@@ -5,10 +5,8 @@ import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
 import { getAllParams, getAllResponse } from "@/services/tournaments/get-all";
-import {
-  createTournamentParams,
-  createTournamentResponse,
-} from "@/services/tournaments/create";
+import { createTournamentParams } from "@/services/tournaments/create";
+import { tournamentResponse } from "@/services/tournaments/common";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -28,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         null,
         { params }
       );
-      const data = await createTournamentResponse.parseAsync(response.data);
+      const data = await tournamentResponse.parseAsync(response.data);
       return res.status(200).json(data);
     }
 

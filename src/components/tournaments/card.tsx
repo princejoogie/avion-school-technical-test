@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 import Link from "next/link";
 import { UsersIcon, CheckIcon } from "@heroicons/react/solid";
 
-import { Tournament } from "@/services/tournaments/common";
-import { tournamentStates } from "@/services/tournaments";
+import { Tournament, tournamentStates } from "@/services/tournaments/common";
 
 const StateTag = ({ state }: { state?: string }) => {
   const stateFound = tournamentStates.find((s) => s.value === state);
@@ -24,7 +25,6 @@ export const TournamentItem = ({ tournament }: Tournament) => {
     state,
     id,
     name,
-    full_challonge_url,
     participants_count,
     completed_at,
     tournament_type,
@@ -33,16 +33,9 @@ export const TournamentItem = ({ tournament }: Tournament) => {
 
   return (
     <Link href={`/${id}`}>
-      <div className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
+      <a className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
         <div>
-          <a
-            href={full_challonge_url}
-            target="_blank"
-            rel="noreferrer"
-            className="font-semibold text-lg"
-          >
-            {name}
-          </a>
+          <h4 className="font-semibold text-lg">{name}</h4>
           <p className="capitalize text-sm text-neutral-500">
             {tournament_type} {game_name}
           </p>
@@ -62,7 +55,7 @@ export const TournamentItem = ({ tournament }: Tournament) => {
             </div>
           )}
         </div>
-      </div>
+      </a>
     </Link>
   );
 };
