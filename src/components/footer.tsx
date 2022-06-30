@@ -4,7 +4,7 @@ import { Container } from "./container";
 
 export const Footer = () => {
   return (
-    <footer className="w-full p-8 border-t">
+    <footer className="w-full mt-20 p-8 border-t">
       <Container className="text-sm">
         <p className="text-center">
           © {new Date().getFullYear()} Avion School Technical Assessment

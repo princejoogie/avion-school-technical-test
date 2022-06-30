@@ -20,6 +20,7 @@
   },
   "plugins": ["react", "@typescript-eslint", "import", "prettier"],
   "rules": {
+    "@typescript-eslint/naming-convention": "off",
     "arrow-body-style": "off",
     "prettier/prettier": "error",
     "import/prefer-default-export": "off",

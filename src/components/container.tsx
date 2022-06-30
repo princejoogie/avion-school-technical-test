@@ -12,7 +12,7 @@ export const Container = ({ children, className, ...rest }: ContainerProps) => {
   return (
     <div
       {...rest}
-      className={`max-w-3xl container px-4 mx-auto w-full ${className}`}
+      className={`max-w-6xl container px-4 mx-auto w-full ${className}`}
     >
       {children}
     </div>
