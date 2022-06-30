@@ -1,7 +1,11 @@
+/* eslint-disable no-console */
 import { AxiosError } from "axios";
-import { z, ZodError } from "zod";
+import toast from "react-hot-toast";
+import { z } from "zod";
 
 import { clientRoutes, clientApi } from "../api-base";
+
+import { ErrorData } from "@/types";
 
 export const createTournamentParams = z
   .object({
@@ -42,14 +46,16 @@ export const create = async (params?: CreateTournamentParams) => {
     );
     return response.data;
   } catch (e) {
-    if (e instanceof ZodError) {
-      throw new Error(e.message);
-    }
-
     if (e instanceof AxiosError) {
-      throw new Error(e.message);
+      const error = e.response?.data as ErrorData;
+      toast.error(error.message);
+      console.error(e);
+      return [];
     }
 
-    throw e;
+    const error = e as any;
+    toast.error(`${error.message}`);
+    console.error(e);
+    return [];
   }
 };

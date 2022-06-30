@@ -10,44 +10,7 @@ import {
   tournamentStates,
 } from "@/services/tournaments";
 import { queryClient } from "@/pages/_app";
-import { Tournaments } from "@/services/tournaments/get-all";
-
-const TournamentItem = ({ tournament }: Tournaments[number]) => {
-  const deleteTournament = useMutation(TournamentService.deleteTournament, {
-    onSuccess: () => queryClient.invalidateQueries("tournaments"),
-  });
-
-  const { name, description, full_challonge_url } = tournament;
-
-  return (
-    <div className="bg-white border items-start flex justify-between p-4 rounded-md">
-      <div>
-        <a
-          href={full_challonge_url}
-          target="_blank"
-          rel="noreferrer"
-          className="font-semibold text-lg"
-        >
-          {name}
-        </a>
-        <p className="text-sm text-neutral-500">{description}</p>
-      </div>
-
-      <button
-        type="button"
-        disabled={deleteTournament.isLoading}
-        className="text-xs text-red-500"
-        onClick={() => {
-          deleteTournament.mutate({
-            id: `${tournament.id}`,
-          });
-        }}
-      >
-        {deleteTournament.isLoading ? "Deleting..." : "Delete"}
-      </button>
-    </div>
-  );
-};
+import { TournamentItem } from "@/components/tournaments";
 
 const Home: NextPage = () => {
   const [state, setState] = useState<TournamentState>("all");
@@ -119,10 +82,10 @@ const Home: NextPage = () => {
               <p className="text-left flex-1 mr-28">{e.label}</p>
               <p>
                 {e.value === "all"
-                  ? tournaments.data?.length
+                  ? tournaments.data?.length ?? 0
                   : tournaments.data?.filter(
                       (t) => t.tournament.state === e.value
-                    ).length}
+                    ).length ?? 0}
               </p>
             </button>
           ))}
