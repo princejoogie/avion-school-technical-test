@@ -33,7 +33,7 @@ export const TournamentItem = ({ tournament }: Tournaments[number]) => {
 
   return (
     <Link href={`/${id}`}>
-      <div className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-50 transition-colors">
+      <div className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
         <div>
           <a
             href={full_challonge_url}

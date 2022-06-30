@@ -4,32 +4,30 @@ import { ZodError } from "zod";
 import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
-import { getAllParams, getAllResponse } from "@/services/tournaments/get-all";
 import {
-  createTournamentParams,
-  createTournamentResponse,
-} from "@/services/tournaments/create";
+  getByIdParams,
+  getByIdResponse,
+} from "@/services/tournaments/get-by-id";
 import { deleteTournamentParams } from "@/services/tournaments/delete";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { tournamentId } = req.query;
+
+  if (!tournamentId || typeof tournamentId !== "string") {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Tournament ID is required",
+    });
+  }
+
   try {
     if (req.method === "GET") {
-      const params = await getAllParams.parseAsync(req.query);
-      const response = await serverApi.get(serverRoutes.tournaments.getAll, {
-        params,
-      });
-      const data = await getAllResponse.parseAsync(response.data);
-      return res.status(200).json(data);
-    }
-
-    if (req.method === "POST") {
-      const params = await createTournamentParams.parseAsync(req.body);
-      const response = await serverApi.post(
-        serverRoutes.tournaments.create,
-        null,
+      const params = await getByIdParams.parseAsync(req.query);
+      const response = await serverApi.get(
+        serverRoutes.tournaments.getById(tournamentId),
         { params }
       );
-      const data = await createTournamentResponse.parseAsync(response.data);
+      const data = await getByIdResponse.parseAsync(response.data);
       return res.status(200).json(data);
     }
 
@@ -43,7 +41,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
     return res
       .status(405)
-      .json({ statusCode: 405, message: "Method Not Allowed" });
+      .json({ statusCode: 405, message: `Method [${req.method}] Not Allowed` });
   } catch (e) {
     if (e instanceof ZodError) {
       console.error(e);

@@ -13,9 +13,10 @@ export type DeleteTournamentParams = z.infer<typeof deleteTournamentParams>;
 
 export const deleteTournament = async (params: DeleteTournamentParams) => {
   try {
-    const response = await clientApi.delete(clientRoutes.tournaments.create, {
-      params,
-    });
+    const response = await clientApi.delete(
+      clientRoutes.tournaments.delete(params.id),
+      { params }
+    );
     return response.data;
   } catch (e) {
     if (e instanceof AxiosError) {
