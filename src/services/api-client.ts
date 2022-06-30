@@ -1,5 +1,4 @@
 import axios from "axios";
-import { ZodSchema, z } from "zod";
 
 export const apiClient = axios.create({
   baseURL: "https://api.challonge.com/v1",
@@ -13,9 +12,6 @@ export const apiClient = axios.create({
   },
 });
 
-export const validateParams =
-  <T extends ZodSchema>(paramSchema: T) =>
-  <K = any>(data: K): z.infer<T> => {
-    const values = paramSchema.parse(data);
-    return values;
-  };
+export const apiRoutes = {
+  tournaments: "/api/tournaments",
+};

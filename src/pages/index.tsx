@@ -1,13 +1,12 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
+import { useQuery } from "react-query";
 
 import { getTournaments } from "@/services/tournaments";
 
 const Home: NextPage = () => {
-  useEffect(() => {
-    getTournaments().then(console.log);
-  }, []);
+  const tournaments = useQuery("tournaments", () => getTournaments());
 
   return (
     <div>
@@ -19,6 +18,20 @@ const Home: NextPage = () => {
 
       <main className="max-w-3xl container px-4 mx-auto w-full">
         <h1 className="text-center mt-4 text-2xl font-semibold">Hello World</h1>
+
+        {tournaments.data ? (
+          <ul>
+            {tournaments.data.map((tournament) => (
+              <li key={tournament.tournament.id}>
+                <a href={tournament.tournament.url}>
+                  {tournament.tournament.name}
+                </a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Loading...</p>
+        )}
       </main>
     </div>
   );
