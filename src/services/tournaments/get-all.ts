@@ -5,6 +5,8 @@ import { z } from "zod";
 
 import { clientRoutes, clientApi } from "../api-base";
 
+import { tournamentResponse } from "./common";
+
 import { ErrorData } from "@/types";
 
 export const getAllParams = z
@@ -26,41 +28,13 @@ export const getAllParams = z
 
 export type GetAllParams = z.infer<typeof getAllParams>;
 
-export const getAllResponse = z.array(
-  z.object({
-    tournament: z
-      .object({
-        created_at: z.string(),
-        description: z.string(),
-        full_challonge_url: z.string().url(),
-        game_name: z.string().nullable(),
-        id: z.number(),
-        live_image_url: z.string().url(),
-        name: z.string(),
-        state: z.enum([
-          "all",
-          "pending",
-          "underway",
-          "complete",
-          "awaiting_review",
-        ]),
-        updated_at: z.string(),
-        url: z.string(),
-        participants_count: z.number(),
-        completed_at: z.string().nullable(),
-        tournament_type: z.string(),
-        // TODO: add more fields
-      })
-      // remove this if you want to strip out unknown properties
-      .passthrough(),
-  })
-);
+export const getAllResponse = z.array(tournamentResponse);
 
-export type Tournaments = z.infer<typeof getAllResponse>;
+export type GetAllResponse = z.infer<typeof getAllResponse>;
 
 export const getAll = async (params?: GetAllParams) => {
   try {
-    const response = await clientApi.get<Tournaments>(
+    const response = await clientApi.get<GetAllResponse>(
       clientRoutes.tournaments.getAll,
       { params }
     );

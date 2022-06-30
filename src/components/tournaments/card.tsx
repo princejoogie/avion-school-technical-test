@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { UsersIcon, CheckIcon } from "@heroicons/react/solid";
 
-import { Tournaments } from "@/services/tournaments/get-all";
+import { Tournament } from "@/services/tournaments/common";
 import { tournamentStates } from "@/services/tournaments";
 
 const StateTag = ({ state }: { state?: string }) => {
@@ -19,7 +19,7 @@ const StateTag = ({ state }: { state?: string }) => {
   );
 };
 
-export const TournamentItem = ({ tournament }: Tournaments[number]) => {
+export const TournamentItem = ({ tournament }: Tournament) => {
   const {
     state,
     id,
