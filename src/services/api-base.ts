@@ -13,7 +13,10 @@ export const serverApi = axios.create({
 });
 
 export const serverRoutes = {
-  tournaments: "/tournaments.json",
+  tournaments: {
+    getAll: "/tournaments.json",
+    create: "/tournaments.json",
+  },
 };
 
 export const clientApi = axios.create({
@@ -21,5 +24,8 @@ export const clientApi = axios.create({
 });
 
 export const clientRoutes = {
-  tournaments: "/tournaments",
+  tournaments: {
+    getAll: "/tournaments",
+    create: "/tournaments",
+  },
 };

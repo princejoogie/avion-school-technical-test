@@ -1,13 +1,21 @@
 import React from "react";
 import Head from "next/head";
 import type { NextPage } from "next";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { Container } from "@/components/container";
 import { TournamentService } from "@/services/tournaments";
+import { queryClient } from "@/pages/_app";
 
 const Home: NextPage = () => {
-  const tournaments = useQuery("tournaments", () => TournamentService.getAll());
+  const tournaments = useQuery("tournaments", () =>
+    TournamentService.getAll({
+      state: "all",
+    })
+  );
+  const create = useMutation(TournamentService.create, {
+    onSuccess: () => queryClient.invalidateQueries("tournaments"),
+  });
 
   return (
     <>
@@ -20,6 +28,20 @@ const Home: NextPage = () => {
       <Container>
         <h1 className="text-center mt-4 text-2xl font-semibold">Tournaments</h1>
 
+        <button
+          type="button"
+          onClick={() => {
+            create.mutate({
+              "tournament[name]": "Test Tournament 2",
+              "tournament[description]": "Test Tournament 2",
+              "tournament[open_signup]": true,
+              "tournament[tournament_type]": "single elimination",
+            });
+          }}
+        >
+          Create Tournament
+        </button>
+
         {tournaments.data ? (
           <ul>
             {tournaments.data.map(({ tournament }) => (
@@ -29,7 +51,7 @@ const Home: NextPage = () => {
                   target="_blank"
                   rel="noreferrer"
                 >
-                  <pre>{JSON.stringify(tournament, null, 2)}</pre>
+                  {tournament.name} - {tournament.state}
                 </a>
               </li>
             ))}

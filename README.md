@@ -1,5 +1,15 @@
 # Avion School Assessment
 
+## Usage
+
+```bash
+# install dependencies
+yarn install
+
+# start development server
+yarn dev
+```
+
 ### Stack
 
 | Name        | Description             | Version   |
