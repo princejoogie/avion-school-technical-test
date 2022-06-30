@@ -1,4 +1,6 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import Link from "next/link";
 
 export interface NavbarProps {
   title?: string;
@@ -7,7 +9,11 @@ export interface NavbarProps {
 export const Navbar = ({ title = "Challonge" }: NavbarProps) => {
   return (
     <nav className="bg-white w-full p-8 border-b sticky top-0 bg-opacity-90">
-      <h1 className="font-bold text-2xl">{title}</h1>
+      <Link href="/">
+        <a>
+          <h1 className="font-bold text-2xl">{title}</h1>
+        </a>
+      </Link>
     </nav>
   );
 };
