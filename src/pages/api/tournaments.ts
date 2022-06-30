@@ -1,7 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
-import { tournamentOutput, tournamentParameters } from "@/services/tournaments";
+import {
+  tournamentOutput,
+  tournamentParameters,
+} from "@/services/tournaments/get-all";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const params = tournamentParameters.parse(req.query);
