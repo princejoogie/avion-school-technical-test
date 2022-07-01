@@ -88,7 +88,7 @@ const TournamentPage: NextPage = () => {
         </button>
       </div>
 
-      <div className="w-full border-b mb-4 flex items-center space-x-1">
+      <div className="w-full border-b mb-4 flex overflow-y-hidden items-center space-x-1">
         {tabs.map((t) => (
           <button
             key={t}

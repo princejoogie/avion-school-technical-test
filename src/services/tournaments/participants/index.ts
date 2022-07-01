@@ -1,5 +1,5 @@
-import { getAll } from "./get-all";
+import { getAllParticipants } from "./get-all";
 
 export const ParticipantsService = Object.freeze({
-  getAll,
+  getAll: getAllParticipants,
 });

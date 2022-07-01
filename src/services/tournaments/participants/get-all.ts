@@ -8,17 +8,19 @@ import { participantResponse } from "./common";
 import { clientRoutes, clientApi } from "@/services/api-base";
 import { ErrorData } from "@/types";
 
-export const getAllParams = z.object({ tournamentId: z.string() });
+export const getAllParticipantsParams = z.object({ tournamentId: z.string() });
 
-export type GetAllParams = z.infer<typeof getAllParams>;
+export type GetAllParticipantsParams = z.infer<typeof getAllParticipantsParams>;
 
-export const getAllResponse = z.array(participantResponse);
+export const getAllParticipantsResponse = z.array(participantResponse);
 
-export type GetAllResponse = z.infer<typeof getAllResponse>;
+export type GetAllParticipantsResponse = z.infer<
+  typeof getAllParticipantsResponse
+>;
 
-export const getAll = async (params: GetAllParams) => {
+export const getAllParticipants = async (params: GetAllParticipantsParams) => {
   try {
-    const response = await clientApi.get<GetAllResponse>(
+    const response = await clientApi.get<GetAllParticipantsResponse>(
       clientRoutes.tournaments.participants.getAll(params.tournamentId),
       { params }
     );

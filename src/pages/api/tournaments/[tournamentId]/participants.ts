@@ -5,8 +5,8 @@ import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
 import {
-  getAllParams,
-  getAllResponse,
+  getAllParticipantsParams,
+  getAllParticipantsResponse,
 } from "@/services/tournaments/participants/get-all";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -21,12 +21,12 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   try {
     if (req.method === "GET") {
-      const params = await getAllParams.parseAsync(req.query);
+      const params = await getAllParticipantsParams.parseAsync(req.query);
       const response = await serverApi.get(
         serverRoutes.tournaments.participants.getAll(tournamentId),
         { params }
       );
-      const data = await getAllResponse.parseAsync(response.data);
+      const data = await getAllParticipantsResponse.parseAsync(response.data);
       return res.status(200).json(data);
     }
 
