@@ -30,6 +30,7 @@ export const getById = async (params: GetByIdParams) => {
       const error = e.response?.data as ErrorData;
       toast.error(error.message);
       console.error(e);
+      return undefined;
     }
 
     const error = e as any;

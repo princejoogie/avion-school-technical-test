@@ -4,31 +4,39 @@ import { ZodError } from "zod";
 import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
-import { getAllParams, getAllResponse } from "@/services/tournaments/get-all";
-import { createTournamentParams } from "@/services/tournaments/create";
-import { tournamentResponse } from "@/services/tournaments/common";
+import {
+  getAllParams,
+  getAllResponse,
+} from "@/services/tournaments/participants/get-all";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const { tournamentId } = req.query;
+
+  if (!tournamentId || typeof tournamentId !== "string") {
+    return res.status(400).json({
+      statusCode: 400,
+      message: "Tournament ID is required",
+    });
+  }
+
   try {
     if (req.method === "GET") {
       const params = await getAllParams.parseAsync(req.query);
-      const response = await serverApi.get(serverRoutes.tournaments.getAll, {
-        params,
-      });
+      const response = await serverApi.get(
+        serverRoutes.tournaments.participants.getAll(tournamentId),
+        { params }
+      );
       const data = await getAllResponse.parseAsync(response.data);
       return res.status(200).json(data);
     }
 
-    if (req.method === "POST") {
-      const params = await createTournamentParams.parseAsync(req.body);
-      const response = await serverApi.post(
-        serverRoutes.tournaments.create,
-        null,
-        { params }
-      );
-      const data = await tournamentResponse.parseAsync(response.data);
-      return res.status(201).json(data);
-    }
+    // if (req.method === "DELETE") {
+    //   const params = await deleteTournamentParams.parseAsync(req.query);
+    //   const response = await serverApi.delete(
+    //     serverRoutes.tournaments.delete(params.id)
+    //   );
+    //   return res.status(200).json(response.data);
+    // }
 
     return res
       .status(405)

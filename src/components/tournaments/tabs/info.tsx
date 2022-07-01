@@ -1,5 +1,12 @@
 import React from "react";
 
-export const InfoTab = () => {
-  return <div>Info Tab</div>;
+import { Tournament } from "@/services/tournaments/common";
+
+interface InfoTabProps {
+  tournament: Tournament;
+}
+
+export const InfoTab = ({ tournament }: InfoTabProps) => {
+  const { description } = tournament.tournament;
+  return <div>{description}</div>;
 };

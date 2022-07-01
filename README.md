@@ -44,7 +44,7 @@ yarn dev
 
 I've created the internal services such that it is end-to-end typesafe at runtime. Using typescript already gives you a huge advatage by defining shapes of inputs and outpus; but this is only beneficial at compile time. Since we are interacting with an external API, we do not know and cannot assure that the data coming back is what we expect.
 
-My implementation uses [zod](https://github.com/colinhacks/zod) as a validator for the apis input and output. It is responsible for validating the input we give and the response we get from the api and does a great job at converting zod schemas to typescript interfaces; this lets me reuse a lot of code throughout the app. The zod schemas are the main source of truth, meaning if I change a property in the schema, all typescript interfaces are updates as it is infered from the schema. This makes debugging and refactoring very easy.
+My implementation uses [zod](https://github.com/colinhacks/zod) as a validator for the apis input and output. It is responsible for validating the input we give and the response we get from the api and does a great job at converting zod schemas to typescript interfaces; this lets me reuse a lot of code throughout the app. The zod schemas are the main source of truth, meaning if I change a property in the schema, all typescript interfaces are updated as it is infered from the schema. This makes debugging and refactoring very easy.
 
 ---
 

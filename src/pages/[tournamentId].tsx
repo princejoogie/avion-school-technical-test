@@ -81,7 +81,7 @@ const TournamentPage: NextPage = () => {
         <button
           type="button"
           onClick={() => {
-            deleteTournament.mutate({ id: tournamentId });
+            deleteTournament.mutate({ id: tournamentId as string });
           }}
         >
           Delete
@@ -110,7 +110,7 @@ const TournamentPage: NextPage = () => {
         ))}
       </div>
 
-      <TabSwitcher activeTab={tab} />
+      <TabSwitcher activeTab={tab} tournament={tournament.data} />
     </Layout>
   );
 };

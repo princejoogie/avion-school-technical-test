@@ -1,5 +1,9 @@
 import React from "react";
 
-export const MatchesTab = () => {
-  return <div>Matches Tab</div>;
+export interface MatchesTabProps {
+  tournamentId: string;
+}
+
+export const MatchesTab = ({ tournamentId }: MatchesTabProps) => {
+  return <div>Matches Tab {tournamentId}</div>;
 };

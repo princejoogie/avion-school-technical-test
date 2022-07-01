@@ -23,12 +23,12 @@ export const deleteTournament = async (params: DeleteTournamentParams) => {
       const error = e.response?.data as ErrorData;
       toast.error(error.message);
       console.error(e);
-      return [];
+      return undefined;
     }
 
     const error = e as any;
     toast.error(`${error.message}`);
     console.error(e);
-    return [];
+    return undefined;
   }
 };
