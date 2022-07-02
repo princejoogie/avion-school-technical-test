@@ -48,22 +48,18 @@ const Home: NextPage = () => {
         </button>
       </div>
 
-      <div className="flex items-start space-x-4">
+      <div className="flex items-start space-x-4 text-gray-500">
         <div className="flex-1">
-          {filteredTournaments ? (
-            filteredTournaments.length > 0 ? (
-              <div className="flex flex-col space-y-4">
-                {filteredTournaments.map(({ tournament }) => (
-                  <TournamentItem key={tournament.id} tournament={tournament} />
-                ))}
-              </div>
-            ) : (
-              <p className="text-center text-gray-500">
-                No tournaments were found.
-              </p>
-            )
+          {tournaments.isLoading ? (
+            <p className="text-center">Loading...</p>
+          ) : filteredTournaments && filteredTournaments.length > 0 ? (
+            <div className="flex flex-col space-y-4">
+              {filteredTournaments.map(({ tournament }) => (
+                <TournamentItem key={tournament.id} tournament={tournament} />
+              ))}
+            </div>
           ) : (
-            <p className="text-center text-gray-500">Loading...</p>
+            <p className="text-center">No tournaments were found.</p>
           )}
         </div>
 
