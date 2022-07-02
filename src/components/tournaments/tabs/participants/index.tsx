@@ -1,6 +1,7 @@
+/* eslint-disable no-nested-ternary */
 import React from "react";
 import { useMutation, useQuery } from "react-query";
-import { CheckIcon } from "@heroicons/react/solid";
+import { CheckIcon, CogIcon } from "@heroicons/react/solid";
 
 import { ParticipantCard } from "./card";
 import { AddParticipantCard } from "./add-participant";
@@ -52,12 +53,20 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
               {randomize.isLoading ? "Shuffling..." : "Shuffle Seeds"}
             </Button>
 
-            {(randomize.isSuccess || participants.isSuccess) && (
+            {randomize.isLoading ||
+            participants.isLoading ||
+            participants.isRefetching ||
+            participants.isFetching ? (
+              <div className="text-sm text-green-500 flex items-center">
+                <CogIcon className="w-4 h-4 mr-1 animate-spin" />
+                <span>Loading</span>
+              </div>
+            ) : randomize.isSuccess || participants.isSuccess ? (
               <div className="text-sm text-green-500 flex items-center">
                 <CheckIcon className="w-4 h-4 mr-1" />
                 <span>Saved</span>
               </div>
-            )}
+            ) : null}
           </div>
         )}
 
@@ -75,7 +84,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
                 <ParticipantCard
                   key={participant.participant.id}
                   participant={participant}
-                  tournamentId={tournament.tournament.id}
+                  tournament={tournament}
                 />
               ))}
           </div>

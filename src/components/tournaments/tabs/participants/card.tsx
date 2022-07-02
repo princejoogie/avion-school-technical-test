@@ -2,19 +2,20 @@ import React, { useState } from "react";
 import { useMutation } from "react-query";
 import { PencilIcon, TrashIcon, CogIcon, XIcon } from "@heroicons/react/solid";
 
-import { Participant } from "@/services/tournaments/participants/common";
 import { Button, TextInput, IconButton } from "@/components";
+import { Participant } from "@/services/tournaments/participants/common";
 import { ParticipantsService } from "@/services/tournaments/participants";
+import { Tournament } from "@/services/tournaments/common";
 import { queryClient } from "@/pages/_app";
 
 export interface ParticipantCardProps {
-  tournamentId: number;
+  tournament: Tournament;
   participant: Participant;
 }
 
 export const ParticipantCard = ({
   participant,
-  tournamentId,
+  tournament,
 }: ParticipantCardProps) => {
   const { name, seed, attached_participatable_portrait_url } =
     participant.participant;
@@ -24,16 +25,22 @@ export const ParticipantCard = ({
   const updateParticipant = useMutation(ParticipantsService.update, {
     onSuccess: () => {
       setIsEditing(false);
-      queryClient.invalidateQueries(["participants", { tournamentId }]);
+      queryClient.invalidateQueries([
+        "participants",
+        { tournamentId: tournament.tournament.id },
+      ]);
     },
   });
 
   const deleteParticipant = useMutation(ParticipantsService.delete, {
     onSuccess: () => {
-      queryClient.invalidateQueries(["participants", { tournamentId }]);
+      queryClient.invalidateQueries([
+        "participants",
+        { tournamentId: tournament.tournament.id },
+      ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournamentId.toString() },
+        { tournamentId: tournament.tournament.id.toString() },
       ]);
     },
   });
@@ -58,35 +65,40 @@ export const ParticipantCard = ({
         </div>
 
         <div className="text-gray-500 flex items-center space-x-1">
-          <IconButton
-            onClick={() => {
-              setIsEditing(!isEditing);
-              if (isEditing) {
-                setDisplayName(name);
-              }
-            }}
-          >
-            {isEditing ? (
-              <XIcon className="w-4 h-4" />
-            ) : (
-              <PencilIcon className="w-4 h-4" />
-            )}
-          </IconButton>
-          <IconButton
-            disabled={isEditing || deleteParticipant.isLoading}
-            onClick={() => {
-              deleteParticipant.mutate({
-                tournamentId: tournamentId.toString(),
-                participantId: participant.participant.id.toString(),
-              });
-            }}
-          >
-            {deleteParticipant.isLoading ? (
-              <CogIcon className="w-4 h-4 animate-spin" />
-            ) : (
-              <TrashIcon className="w-4 h-4" />
-            )}
-          </IconButton>
+          {tournament.tournament.state === "pending" && (
+            <>
+              <IconButton
+                onClick={() => {
+                  setIsEditing(!isEditing);
+                  if (isEditing) {
+                    setDisplayName(name);
+                  }
+                }}
+              >
+                {isEditing ? (
+                  <XIcon className="w-4 h-4" />
+                ) : (
+                  <PencilIcon className="w-4 h-4" />
+                )}
+              </IconButton>
+
+              <IconButton
+                disabled={isEditing || deleteParticipant.isLoading}
+                onClick={() => {
+                  deleteParticipant.mutate({
+                    tournamentId: tournament.tournament.id.toString(),
+                    participantId: participant.participant.id.toString(),
+                  });
+                }}
+              >
+                {deleteParticipant.isLoading ? (
+                  <CogIcon className="w-4 h-4 animate-spin" />
+                ) : (
+                  <TrashIcon className="w-4 h-4" />
+                )}
+              </IconButton>
+            </>
+          )}
         </div>
       </div>
 
@@ -97,7 +109,7 @@ export const ParticipantCard = ({
             onSubmit={(e) => {
               e.preventDefault();
               updateParticipant.mutate({
-                tournamentId: tournamentId.toString(),
+                tournamentId: tournament.tournament.id.toString(),
                 participantId: participant.participant.id.toString(),
                 "participant[name]": displayName,
               });
