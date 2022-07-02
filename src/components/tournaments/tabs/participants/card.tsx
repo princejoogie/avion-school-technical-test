@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
+import { PencilIcon, TrashIcon, CogIcon } from "@heroicons/react/solid";
 
 import { Participant } from "@/services/tournaments/participants/common";
 import { Button, TextInput, IconButton } from "@/components";
@@ -27,6 +27,12 @@ export const ParticipantCard = ({
     },
   });
 
+  const deleteParticipant = useMutation(ParticipantsService.delete, {
+    onSuccess: () => {
+      queryClient.invalidateQueries(["participants", { tournamentId }]);
+    },
+  });
+
   return (
     <div className="bg-white border rounded-md py-2">
       <div className="flex items-center px-4 justify-between">
@@ -45,8 +51,20 @@ export const ParticipantCard = ({
           >
             <PencilIcon className="w-4 h-4" />
           </IconButton>
-          <IconButton>
-            <TrashIcon className="w-4 h-4" />
+          <IconButton
+            disabled={isEditing || deleteParticipant.isLoading}
+            onClick={() => {
+              deleteParticipant.mutate({
+                tournamentId: tournamentId.toString(),
+                participantId: participant.participant.id.toString(),
+              });
+            }}
+          >
+            {deleteParticipant.isLoading ? (
+              <CogIcon className="w-4 h-4 animate-spin" />
+            ) : (
+              <TrashIcon className="w-4 h-4" />
+            )}
           </IconButton>
         </div>
       </div>

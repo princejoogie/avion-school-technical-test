@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
 import { updateParticipantParams } from "@/services/tournaments/participants/update";
+import { deleteParticipantParams } from "@/services/tournaments/participants/delete";
 import { handleError } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
@@ -30,6 +31,18 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
           participantId
         ),
         null,
+        { params }
+      );
+      return res.status(200).json(response.data);
+    }
+
+    if (req.method === "DELETE") {
+      const params = await deleteParticipantParams.parseAsync(req.query);
+      const response = await serverApi.delete(
+        serverRoutes.tournaments.participants.delete(
+          tournamentId,
+          participantId
+        ),
         { params }
       );
       return res.status(200).json(response.data);

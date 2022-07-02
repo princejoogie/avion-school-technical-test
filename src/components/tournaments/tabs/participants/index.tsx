@@ -36,8 +36,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
     return <div>Something went wrong</div>;
   }
 
-  const canAddOrShuffle =
-    state === "pending" && tournament.tournament.participants_count > 0;
+  const canAddOrShuffle = state === "pending" && participants.data.length > 0;
 
   return (
     <div className="grid grid-cols-12 gap-4">
@@ -82,7 +81,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
           </div>
         ) : null}
 
-        {canAddOrShuffle && (
+        {state === "pending" && (
           <AddParticipantCard
             tournamentId={tournament.tournament.id.toString()}
           />

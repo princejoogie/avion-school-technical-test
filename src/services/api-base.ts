@@ -31,6 +31,8 @@ export const serverRoutes = Object.freeze({
         `/tournaments/${tournamentId}/participants/randomize.json`,
       update: (tournamentId: string, participantId: string) =>
         `/tournaments/${tournamentId}/participants/${participantId}.json`,
+      delete: (tournamentId: string, participantId: string) =>
+        `/tournaments/${tournamentId}/participants/${participantId}.json`,
     },
   },
 });
@@ -77,6 +79,8 @@ export const clientRoutes = Object.freeze({
       randomize: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants/randomize`,
       update: (tournamentId: string, participantId: string) =>
+        `/tournaments/${tournamentId}/participants/${participantId}`,
+      delete: (tournamentId: string, participantId: string) =>
         `/tournaments/${tournamentId}/participants/${participantId}`,
     },
   },
