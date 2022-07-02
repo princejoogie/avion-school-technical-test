@@ -1,18 +1,31 @@
 import React, { useState } from "react";
+import { useMutation } from "react-query";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 
 import { Participant } from "@/services/tournaments/participants/common";
-import { IconButton } from "@/components/icon-button";
-import { Button, TextInput } from "@/components";
+import { Button, TextInput, IconButton } from "@/components";
+import { ParticipantsService } from "@/services/tournaments/participants";
+import { queryClient } from "@/pages/_app";
 
 export interface ParticipantCardProps {
+  tournamentId: number;
   participant: Participant;
 }
 
-export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
+export const ParticipantCard = ({
+  participant,
+  tournamentId,
+}: ParticipantCardProps) => {
   const { name, seed } = participant.participant;
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState(name);
+
+  const updateParticipant = useMutation(ParticipantsService.update, {
+    onSuccess: () => {
+      setIsEditing(false);
+      queryClient.invalidateQueries(["participants", { tournamentId }]);
+    },
+  });
 
   return (
     <div className="bg-white border rounded-md py-2">
@@ -41,7 +54,17 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
       {isEditing && (
         <>
           <hr className="my-2" />
-          <div className="px-4 text-sm flex items-center space-x-2">
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              updateParticipant.mutate({
+                tournamentId: tournamentId.toString(),
+                participantId: participant.participant.id.toString(),
+                "participant[name]": displayName,
+              });
+            }}
+            className="px-4 text-sm flex items-center space-x-2"
+          >
             <TextInput
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
@@ -49,8 +72,13 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
               className="w-full md:w-1/2"
             />
 
-            <Button>Save</Button>
-          </div>
+            <Button
+              type="submit"
+              disabled={!displayName || updateParticipant.isLoading}
+            >
+              {updateParticipant.isLoading ? "Saving..." : "Save"}
+            </Button>
+          </form>
         </>
       )}
     </div>

@@ -36,13 +36,13 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
     return <div>Something went wrong</div>;
   }
 
-  const canShuffle =
+  const canAddOrShuffle =
     state === "pending" && tournament.tournament.participants_count > 0;
 
   return (
     <div className="grid grid-cols-12 gap-4">
       <div className="col-span-12 md:col-span-8 h-min">
-        {canShuffle && (
+        {canAddOrShuffle && (
           <div className="flex items-center justify-between mb-4">
             <Button
               disabled={randomize.isLoading}
@@ -53,7 +53,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
               {randomize.isLoading ? "Shuffling..." : "Shuffle Seeds"}
             </Button>
 
-            {randomize.isSuccess && (
+            {(randomize.isSuccess || participants.isSuccess) && (
               <div className="text-sm text-green-500 flex items-center">
                 <CheckIcon className="w-4 h-4 mr-1" />
                 <span>Saved</span>
@@ -76,14 +76,17 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
                 <ParticipantCard
                   key={participant.participant.id}
                   participant={participant}
+                  tournamentId={tournament.tournament.id}
                 />
               ))}
           </div>
         ) : null}
 
-        <AddParticipantCard
-          tournamentId={tournament.tournament.id.toString()}
-        />
+        {canAddOrShuffle && (
+          <AddParticipantCard
+            tournamentId={tournament.tournament.id.toString()}
+          />
+        )}
       </div>
 
       <div className="h-min col-span-12 md:col-span-4 text-sm text-gray-500 bg-white border rounded-md p-4">

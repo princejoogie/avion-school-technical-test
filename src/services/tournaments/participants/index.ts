@@ -1,9 +1,11 @@
-import { getAllParticipants } from "./get-all";
 import { createParticipant } from "./create";
+import { getAllParticipants } from "./get-all";
 import { randomizeParticipants } from "./randomize";
+import { updateParticipant } from "./update";
 
 export const ParticipantsService = Object.freeze({
-  getAll: getAllParticipants,
   create: createParticipant,
+  getAll: getAllParticipants,
   randomize: randomizeParticipants,
+  update: updateParticipant,
 });

@@ -29,6 +29,8 @@ export const serverRoutes = Object.freeze({
         `/tournaments/${tournamentId}/participants.json`,
       randomize: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants/randomize.json`,
+      update: (tournamentId: string, participantId: string) =>
+        `/tournaments/${tournamentId}/participants/${participantId}.json`,
     },
   },
 });
@@ -41,9 +43,16 @@ clientApi.interceptors.response.use(
   (config) => config,
   (e) => {
     if (e instanceof AxiosError) {
+      console.error(e);
+      if (e.response?.data.errors) {
+        e.response.data.errors.forEach((error: string) => {
+          toast.error(error);
+        });
+        return Promise.reject(e);
+      }
+
       const error = e.response?.data as ErrorData;
       toast.error(error.message);
-      console.error(e);
       return Promise.reject(e);
     }
 
@@ -67,6 +76,8 @@ export const clientRoutes = Object.freeze({
         `/tournaments/${tournamentId}/participants`,
       randomize: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants/randomize`,
+      update: (tournamentId: string, participantId: string) =>
+        `/tournaments/${tournamentId}/participants/${participantId}`,
     },
   },
 });
