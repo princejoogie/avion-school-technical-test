@@ -1,12 +1,10 @@
-/* eslint-disable no-console */
 import type { NextApiRequest, NextApiResponse } from "next";
-import { ZodError } from "zod";
-import { AxiosError } from "axios";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
 import { getAllParams, getAllResponse } from "@/services/tournaments/get-all";
 import { createTournamentParams } from "@/services/tournaments/create";
 import { tournamentResponse } from "@/services/tournaments/common";
+import { handleError } from "@/utils";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   try {
@@ -34,25 +32,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       .status(405)
       .json({ statusCode: 405, message: `Method [${req.method}] Not Allowed` });
   } catch (e) {
-    if (e instanceof ZodError) {
-      console.error(e);
-      const errors = e.errors.map(
-        (err) => `${err.path.join(".")}: ${err.message}`
-      );
-      return res.status(400).json({
-        statusCode: 400,
-        message: errors.join("\n"),
-      });
-    }
-
-    if (e instanceof AxiosError) {
-      console.error(e);
-      return res.status(400).json({ statusCode: 400, message: e.message });
-    }
-
-    const error = e as any;
-    console.error(error);
-    return res.status(400).json({ statusCode: 400, message: error.message });
+    return handleError(e, res);
   }
 };
 

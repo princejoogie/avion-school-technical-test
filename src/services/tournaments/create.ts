@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import { z } from "zod";
 
 import { clientRoutes, clientApi } from "../api-base";
