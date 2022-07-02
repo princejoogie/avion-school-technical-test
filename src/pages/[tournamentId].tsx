@@ -49,11 +49,11 @@ const TournamentPage: NextPage = () => {
 
   return (
     <Layout seo={{ title: `${name} - ${capitalize(tab)}` }}>
-      <div className="flex my-10 items-center justify-between">
+      <div className="flex my-10 items-start justify-between">
         <div>
           <h2 className="text-2xl font-semibold">{name}</h2>
 
-          <div className="mt-2 text-sm flex items-center space-x-4 text-gray-500">
+          <div className="mt-2 text-sm flex flex-col md:flex-row md:items-center space-y-2 md:space-y-0 md:space-x-4 text-gray-500">
             <div className="flex items-center space-x-2">
               <UsersIcon className="h-4 w-4" />
               <span className="mr-1 ml-3">{participants_count} Players</span>
@@ -80,6 +80,7 @@ const TournamentPage: NextPage = () => {
         </div>
 
         <button
+          className="text-red-500 font-bold uppercase text-sm"
           type="button"
           onClick={() => {
             deleteTournament.mutate({ id: tournamentId as string });

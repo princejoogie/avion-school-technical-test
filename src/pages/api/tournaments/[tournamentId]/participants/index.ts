@@ -6,6 +6,8 @@ import {
   getAllParticipantsResponse,
 } from "@/services/tournaments/participants/get-all";
 import { handleError } from "@/utils";
+import { createParticipantParams } from "@/services/tournaments/participants/create";
+import { participantResponse } from "@/services/tournaments/participants/common";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const { tournamentId } = req.query;
@@ -26,6 +28,17 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
       const data = await getAllParticipantsResponse.parseAsync(response.data);
       return res.status(200).json(data);
+    }
+
+    if (req.method === "POST") {
+      const params = await createParticipantParams.parseAsync(req.body);
+      const response = await serverApi.post(
+        serverRoutes.tournaments.participants.create(tournamentId),
+        null,
+        { params }
+      );
+      const data = participantResponse.parseAsync(response.data);
+      return res.status(201).json(data);
     }
 
     // if (req.method === "DELETE") {

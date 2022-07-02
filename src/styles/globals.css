@@ -5,7 +5,6 @@
 @tailwind utilities;
 
 * {
-  overflow-x: hidden;
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
 }

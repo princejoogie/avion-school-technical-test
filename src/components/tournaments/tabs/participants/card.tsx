@@ -10,7 +10,7 @@ export const ParticipantCard = ({ participant }: ParticipantCardProps) => {
   const { name, seed } = participant.participant;
 
   return (
-    <div>
+    <div className="bg-white border rounded-md px-4 py-2">
       {seed} - {name}
     </div>
   );
