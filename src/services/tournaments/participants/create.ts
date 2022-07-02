@@ -15,7 +15,7 @@ export const createParticipantsParams = z.object({
 
 export type CreateParticipantsParams = z.infer<typeof createParticipantsParams>;
 
-export const getAllParticipants = async (params: CreateParticipantsParams) => {
+export const createParticipant = async (params: CreateParticipantsParams) => {
   const response = await clientApi.get<Participant>(
     clientRoutes.tournaments.participants.getAll(params.tournamentId),
     { params }

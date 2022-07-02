@@ -27,6 +27,8 @@ export const serverRoutes = Object.freeze({
         `/tournaments/${tournamentId}/participants.json`,
       create: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants.json`,
+      randomize: (tournamentId: string) =>
+        `/tournaments/${tournamentId}/participants/randomize.json`,
     },
   },
 });
@@ -63,6 +65,8 @@ export const clientRoutes = Object.freeze({
         `/tournaments/${tournamentId}/participants`,
       create: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants`,
+      randomize: (tournamentId: string) =>
+        `/tournaments/${tournamentId}/participants/randomize`,
     },
   },
 });

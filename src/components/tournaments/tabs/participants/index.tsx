@@ -1,11 +1,12 @@
 import React from "react";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 
 import { ParticipantCard } from "./card";
 
 import { Tournament } from "@/services/tournaments/common";
 import { ParticipantsService } from "@/services/tournaments/participants";
 import { Button } from "@/components";
+import { queryClient } from "@/pages/_app";
 
 export interface ParticipantsTabProps {
   tournament: Tournament;
@@ -15,6 +16,15 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
   const { id: tournamentId, state } = tournament.tournament;
   const participants = useQuery(["participants", { tournamentId }], () =>
     ParticipantsService.getAll({ tournamentId: tournamentId.toString() })
+  );
+  const randomize = useMutation(
+    ["randomizeParticipants", { tournamentId }],
+    () =>
+      ParticipantsService.randomize({ tournamentId: tournamentId.toString() }),
+    {
+      onSuccess: () =>
+        queryClient.invalidateQueries(["participants", { tournamentId }]),
+    }
   );
 
   if (participants.isLoading) {
@@ -29,7 +39,13 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
     <div className="w-full md:w-2/3">
       {state === "pending" && (
         <div>
-          <Button className="uppercase">Shuffle Seeds</Button>
+          <Button
+            disabled={randomize.isLoading}
+            onClick={() => randomize.mutate()}
+            className="uppercase"
+          >
+            {randomize.isLoading ? "Shuffling..." : "Shuffle Seeds"}
+          </Button>
         </div>
       )}
 
