@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
-import { PencilIcon, TrashIcon, CogIcon } from "@heroicons/react/solid";
+import { PencilIcon, TrashIcon, CogIcon, XIcon } from "@heroicons/react/solid";
 
 import { Participant } from "@/services/tournaments/participants/common";
 import { Button, TextInput, IconButton } from "@/components";
@@ -16,7 +16,8 @@ export const ParticipantCard = ({
   participant,
   tournamentId,
 }: ParticipantCardProps) => {
-  const { name, seed } = participant.participant;
+  const { name, seed, attached_participatable_portrait_url } =
+    participant.participant;
   const [isEditing, setIsEditing] = useState(false);
   const [displayName, setDisplayName] = useState(name);
 
@@ -30,14 +31,30 @@ export const ParticipantCard = ({
   const deleteParticipant = useMutation(ParticipantsService.delete, {
     onSuccess: () => {
       queryClient.invalidateQueries(["participants", { tournamentId }]);
+      queryClient.invalidateQueries([
+        "tournament",
+        { tournamentId: tournamentId.toString() },
+      ]);
     },
   });
 
   return (
     <div className="bg-white border rounded-md py-2">
       <div className="flex items-center px-4 justify-between">
-        <div>
-          {seed} - {name}
+        <div className="flex items-center">
+          <span className="bg-gray-50 font-semibold border rounded px-4 mr-2">
+            {seed}
+          </span>
+          <div className="inline-flex items-center space-x-1">
+            {attached_participatable_portrait_url && (
+              <img
+                className="h-8 w-8 rounded-full"
+                src={attached_participatable_portrait_url}
+                alt={name}
+              />
+            )}
+            <span className="">{name}</span>
+          </div>
         </div>
 
         <div className="text-gray-500 flex items-center space-x-1">
@@ -49,7 +66,11 @@ export const ParticipantCard = ({
               }
             }}
           >
-            <PencilIcon className="w-4 h-4" />
+            {isEditing ? (
+              <XIcon className="w-4 h-4" />
+            ) : (
+              <PencilIcon className="w-4 h-4" />
+            )}
           </IconButton>
           <IconButton
             disabled={isEditing || deleteParticipant.isLoading}

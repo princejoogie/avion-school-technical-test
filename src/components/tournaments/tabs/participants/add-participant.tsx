@@ -23,6 +23,10 @@ export const AddParticipantCard = ({
         "participants",
         { tournamentId: Number(tournamentId) },
       ]);
+      queryClient.invalidateQueries([
+        "tournament",
+        { tournamentId: tournamentId.toString() },
+      ]);
     },
   });
 
