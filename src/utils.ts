@@ -24,3 +24,8 @@ export const handleError = (e: unknown, res: NextApiResponse) => {
   console.error(error);
   return res.status(400).json({ statusCode: 400, message: error.message });
 };
+
+export const capitalize = (s: string) => {
+  if (!s) return s;
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};

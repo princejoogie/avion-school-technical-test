@@ -6,12 +6,12 @@ export interface NavbarProps {
   title?: string;
 }
 
-export const Navbar = ({ title = "Challonge" }: NavbarProps) => {
+export const Navbar = ({ title = "Chall0nge" }: NavbarProps) => {
   return (
     <nav className="bg-white w-full p-8 border-b sticky top-0 bg-opacity-90">
       <Link href="/">
         <a>
-          <h1 className="font-bold text-2xl">{title}</h1>
+          <h1 className="font-mono font-bold text-2xl">{title}</h1>
         </a>
       </Link>
     </nav>

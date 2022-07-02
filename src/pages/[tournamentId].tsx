@@ -8,6 +8,7 @@ import { UsersIcon, PuzzleIcon, ReceiptTaxIcon } from "@heroicons/react/solid";
 import { Layout } from "@/components";
 import { TournamentService } from "@/services/tournaments";
 import { Tab, tabs, TabSwitcher } from "@/components/tournaments/tabs/switcher";
+import { capitalize } from "@/utils";
 
 const TournamentPage: NextPage = () => {
   const [tab, setTab] = useState<Tab>("info");
@@ -47,7 +48,7 @@ const TournamentPage: NextPage = () => {
     tournament.data.tournament;
 
   return (
-    <Layout>
+    <Layout seo={{ title: `${name} - ${capitalize(tab)}` }}>
       <div className="flex my-10 items-center justify-between">
         <div>
           <h2 className="text-2xl font-semibold">{name}</h2>

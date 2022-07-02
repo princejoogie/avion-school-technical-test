@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useMutation, useQuery } from "react-query";
 
-import { Layout } from "@/components";
+import { Button, Layout } from "@/components";
 import { TournamentService } from "@/services/tournaments";
 import {
   TournamentState,
@@ -31,10 +31,10 @@ const Home: NextPage = () => {
     <Layout>
       <div className="flex my-10 items-center justify-between">
         <h2 className="text-2xl font-semibold">Your tournaments</h2>
-        <button
+        <Button
+          variant="warning"
           type="button"
           disabled={create.isLoading}
-          className="bg-green-500 text-white px-4 py-2 rounded"
           onClick={() => {
             create.mutate({
               "tournament[name]": `Tournament ${new Date().toLocaleTimeString()}`,
@@ -45,7 +45,7 @@ const Home: NextPage = () => {
           }}
         >
           {create.isLoading ? "Creating..." : "Create a tournament"}
-        </button>
+        </Button>
       </div>
 
       <div className="flex items-start space-x-4 text-gray-500">

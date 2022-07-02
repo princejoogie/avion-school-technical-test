@@ -9,8 +9,8 @@ export interface LayoutProps {
   children: React.ReactNode;
   navTitle?: string;
   seo?: {
-    title: string;
-    description: string;
+    title?: string;
+    description?: string;
   };
   className?: string;
 }
@@ -19,7 +19,7 @@ export const Layout = ({ children, navTitle, seo, className }: LayoutProps) => {
   return (
     <>
       <Head>
-        <title>{seo?.title ?? "Challonge"}</title>
+        <title>{seo?.title ?? "Chall0nge"}</title>
         <meta
           name="description"
           content={seo?.description ?? "Avion School Technical Assessment"}

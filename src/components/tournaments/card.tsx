@@ -35,7 +35,7 @@ export const TournamentItem = ({ tournament }: Tournament) => {
     <Link href={`/${id}`}>
       <a className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
         <div>
-          <h4 className="font-semibold text-lg">{name}</h4>
+          <h4 className="text-black font-semibold text-lg">{name}</h4>
           <p className="capitalize text-sm text-neutral-500">
             {tournament_type} {game_name}
           </p>

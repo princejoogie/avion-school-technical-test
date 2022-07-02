@@ -1,9 +1,12 @@
 import React from "react";
 
+import { Tournament } from "@/services/tournaments/common";
+
 export interface MatchesTabProps {
-  tournamentId: string;
+  tournament: Tournament;
 }
 
-export const MatchesTab = ({ tournamentId }: MatchesTabProps) => {
+export const MatchesTab = ({ tournament }: MatchesTabProps) => {
+  const { id: tournamentId } = tournament.tournament;
   return <div>Matches Tab {tournamentId}</div>;
 };

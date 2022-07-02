@@ -16,15 +16,13 @@ export interface TabSwitcherProps {
 }
 
 export const TabSwitcher = ({ activeTab, tournament }: TabSwitcherProps) => {
-  const { id } = tournament.tournament;
-
   switch (activeTab) {
     case "info":
       return <InfoTab tournament={tournament} />;
     case "participants":
-      return <ParticipantsTab tournamentId={id.toString()} />;
+      return <ParticipantsTab tournament={tournament} />;
     case "matches":
-      return <MatchesTab tournamentId={id.toString()} />;
+      return <MatchesTab tournament={tournament} />;
     default:
       return <InfoTab tournament={tournament} />;
   }
