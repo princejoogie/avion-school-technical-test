@@ -4,21 +4,9 @@ import React from "react";
 import Link from "next/link";
 import { UsersIcon, CheckIcon } from "@heroicons/react/solid";
 
-import { Tournament, tournamentStates } from "@/services/tournaments/common";
+import { Tag } from "../tag";
 
-const StateTag = ({ state }: { state?: string }) => {
-  const stateFound = tournamentStates.find((s) => s.value === state);
-  if (!state || !stateFound) return null;
-  const { label, style } = stateFound;
-
-  return (
-    <span
-      className={`rounded-full px-3 py-1 inline text-[0.6rem] text-white ${style}`}
-    >
-      {label}
-    </span>
-  );
-};
+import { Tournament } from "@/services/tournaments/common";
 
 export const TournamentItem = ({ tournament }: Tournament) => {
   const {
@@ -43,7 +31,7 @@ export const TournamentItem = ({ tournament }: Tournament) => {
 
         <div className="text-xs text-gray-500 flex flex-col items-end">
           <div className="flex items-center">
-            <StateTag state={state} />
+            <Tag state={state} />
             <span className="mr-1 ml-3">{participants_count}</span>
             <UsersIcon className="h-4 w-4" />
           </div>

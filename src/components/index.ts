@@ -5,3 +5,4 @@ export * from "./icon-button";
 export * from "./layout";
 export * from "./navbar";
 export * from "./text-input";
+export * from "./tag";

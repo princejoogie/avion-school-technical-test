@@ -3,12 +3,9 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useMutation, useQuery } from "react-query";
 
-import { Button, Layout } from "@/components";
+import { Button, Layout, tournamentStates } from "@/components";
 import { TournamentService } from "@/services/tournaments";
-import {
-  TournamentState,
-  tournamentStates,
-} from "@/services/tournaments/common";
+import { TournamentState } from "@/services/tournaments/common";
 import { queryClient } from "@/pages/_app";
 import { TournamentItem } from "@/components/tournaments";
 
