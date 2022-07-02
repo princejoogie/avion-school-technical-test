@@ -41,14 +41,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       return res.status(201).json(data);
     }
 
-    // if (req.method === "DELETE") {
-    //   const params = await deleteTournamentParams.parseAsync(req.query);
-    //   const response = await serverApi.delete(
-    //     serverRoutes.tournaments.delete(params.id)
-    //   );
-    //   return res.status(200).json(response.data);
-    // }
-
     return res
       .status(405)
       .json({ statusCode: 405, message: `Method [${req.method}] Not Allowed` });

@@ -1,14 +1,14 @@
 import React from "react";
 
-import { InfoTab } from "./info";
+import { SettingsTab } from "./settings";
 import { MatchesTab } from "./matches";
 import { ParticipantsTab } from "./participants";
 
 import { Tournament } from "@/services/tournaments/common";
 
-export type Tab = "info" | "participants" | "matches";
+export type Tab = "settings" | "participants" | "matches";
 
-export const tabs: Tab[] = ["info", "participants", "matches"];
+export const tabs: Tab[] = ["matches", "participants", "settings"];
 
 export interface TabSwitcherProps {
   activeTab: Tab;
@@ -17,13 +17,13 @@ export interface TabSwitcherProps {
 
 export const TabSwitcher = ({ activeTab, tournament }: TabSwitcherProps) => {
   switch (activeTab) {
-    case "info":
-      return <InfoTab tournament={tournament} />;
+    case "settings":
+      return <SettingsTab tournament={tournament} />;
     case "participants":
       return <ParticipantsTab tournament={tournament} />;
     case "matches":
       return <MatchesTab tournament={tournament} />;
     default:
-      return <InfoTab tournament={tournament} />;
+      return <SettingsTab tournament={tournament} />;
   }
 };

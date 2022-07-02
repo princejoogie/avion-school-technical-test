@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useMutation, useQuery } from "react-query";
+import { useQuery } from "react-query";
 import { UsersIcon, PuzzleIcon, ReceiptTaxIcon } from "@heroicons/react/solid";
 
 import { Layout } from "@/components";
@@ -11,7 +11,7 @@ import { Tab, tabs, TabSwitcher } from "@/components/tournaments/tabs/switcher";
 import { capitalize } from "@/utils";
 
 const TournamentPage: NextPage = () => {
-  const [tab, setTab] = useState<Tab>("info");
+  const [tab, setTab] = useState<Tab>("matches");
 
   // url query params
   const router = useRouter();
@@ -21,12 +21,6 @@ const TournamentPage: NextPage = () => {
   const tournament = useQuery(["tournament", { tournamentId }], () =>
     TournamentService.getById({ tournamentId: tournamentId as string })
   );
-
-  const deleteTournament = useMutation(TournamentService.deleteTournament, {
-    onSuccess: () => {
-      router.replace("/");
-    },
-  });
 
   if (tournament.isLoading) {
     return (
@@ -78,16 +72,6 @@ const TournamentPage: NextPage = () => {
             </div>
           </div>
         </div>
-
-        <button
-          className="text-red-500 font-bold uppercase text-sm"
-          type="button"
-          onClick={() => {
-            deleteTournament.mutate({ id: tournamentId as string });
-          }}
-        >
-          Delete
-        </button>
       </div>
 
       <div className="w-full border-b mb-4 flex overflow-y-hidden items-center space-x-1">
