@@ -49,7 +49,6 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
               onClick={() => {
                 randomize.mutate({ tournamentId: tournamentId.toString() });
               }}
-              className="uppercase py-1"
             >
               {randomize.isLoading ? "Shuffling..." : "Shuffle Seeds"}
             </Button>

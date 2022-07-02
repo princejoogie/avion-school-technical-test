@@ -11,10 +11,10 @@ export interface ButtonProps
 }
 
 const color = {
-  success: "bg-green-500 focus:ring-green-800",
-  danger: "bg-red-500 focus:ring-red-800",
-  warning: "bg-yellow-500 focus:ring-yellow-800",
-  info: "bg-blue-500 focus:ring-blue-800",
+  success: "bg-green-500",
+  danger: "bg-red-500",
+  warning: "bg-yellow-500",
+  info: "bg-blue-500",
 };
 
 export const Button = ({
@@ -26,7 +26,7 @@ export const Button = ({
   return (
     <button
       {...rest}
-      className={`text-white outline-none ring-0 focus:ring-2 disabled:opacity-30 disabled:cursor-not-allowed active:opacity-70 transition-opacity px-4 py-2 rounded ${color[variant]} ${className}`}
+      className={`text-white uppercase outline-none ring-0 focus:ring-2 disabled:opacity-30 disabled:cursor-not-allowed active:opacity-70 transition-opacity px-6 py-2 rounded ${color[variant]} ${className}`}
     >
       {children}
     </button>

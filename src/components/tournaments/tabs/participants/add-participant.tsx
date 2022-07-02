@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useMutation } from "react-query";
 
-import { Button } from "@/components/button";
+import { Button, TextInput } from "@/components";
 import { ParticipantsService } from "@/services/tournaments/participants";
 import { queryClient } from "@/pages/_app";
 
@@ -39,27 +39,22 @@ export const AddParticipantCard = ({
         }}
         className="flex items-center space-x-6"
       >
-        <div className="flex items-center space-x-4 text-sm">
-          <input
+        <div className="flex items-center space-x-2 text-sm">
+          <TextInput
             value={displayName}
             onChange={(e) => setDisplayName(e.target.value)}
-            type="text"
             placeholder="Display name"
-            className="bg-gray-50 w-full px-3 py-2 border rounded"
           />
-          <input
+          <TextInput
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            type="text"
             placeholder="Email or Username"
-            className="bg-gray-50 w-full px-3 py-2 border rounded"
           />
         </div>
 
         <Button
           disabled={!displayName || !email || createParticipant.isLoading}
           type="submit"
-          className="px-6 uppercase"
         >
           {createParticipant.isLoading ? "Adding..." : "Add"}
         </Button>
