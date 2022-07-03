@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { MatchWithParticipant } from "@/types";
 import { Participant } from "@/services/tournaments/participants/common";
@@ -51,6 +51,9 @@ const ItemContainer = ({ player, score, isWinner }: ItemContainerProps) => {
 };
 
 export const MatchDetails = ({ match }: MatchDetailsProps) => {
+  const [tab, setTab] = useState<"match_details" | "report_scores">(
+    "match_details"
+  );
   const { winner_id } = match.match;
   const { player1, player2 } = match;
 
@@ -62,26 +65,64 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
   const player2Win = player2?.participant.id === winner_id;
 
   return (
-    <div>
-      <div>Showing Report Scores</div>
+    <>
+      <div className="text-gray-500 text-sm">
+        <button
+          type="button"
+          disabled={tab === "match_details"}
+          onClick={() => setTab("match_details")}
+          className={`group transition-colors hover:bg-gray-50 ${
+            tab === "match_details" ? "text-black" : ""
+          }`}
+        >
+          <p className="px-4 mt-2">Match details</p>
 
-      <div className="flex mt-4">
-        <ItemContainer
-          player={player1}
-          score={player1Score}
-          isWinner={player1Win}
-        />
+          <div
+            className={`hover:bg-gray-100 w-full mt-2 h-1 ${
+              tab === "match_details" ? "bg-green-500" : "bg-white"
+            }`}
+          />
+        </button>
 
-        <p className="font-bold flex flex-col items-center justify-center mx-4">
-          VS
-        </p>
+        <button
+          type="button"
+          disabled={tab === "report_scores"}
+          onClick={() => setTab("report_scores")}
+          className={`group transition-colors hover:bg-gray-50 ${
+            tab === "report_scores" ? "text-black" : ""
+          }`}
+        >
+          <p className="px-4 mt-2">Report scores</p>
 
-        <ItemContainer
-          player={player2}
-          score={player2Score}
-          isWinner={player2Win}
-        />
+          <div
+            className={`hover:bg-gray-100 w-full mt-2 h-1 ${
+              tab === "report_scores" ? "bg-green-500" : "bg-white"
+            }`}
+          />
+        </button>
       </div>
-    </div>
+
+      {tab === "match_details" ? (
+        <div className="flex mt-4">
+          <ItemContainer
+            player={player1}
+            score={player1Score}
+            isWinner={player1Win}
+          />
+
+          <p className="font-bold flex flex-col items-center justify-center mx-4">
+            VS
+          </p>
+
+          <ItemContainer
+            player={player2}
+            score={player2Score}
+            isWinner={player2Win}
+          />
+        </div>
+      ) : (
+        <div>Report Scores</div>
+      )}
+    </>
   );
 };

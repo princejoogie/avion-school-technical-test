@@ -31,19 +31,27 @@ export const SidePanel = ({
     },
   });
 
+  const { state, id } = tournament.tournament;
+
   return (
     <div className="h-min col-span-12 md:col-span-4 text-sm text-gray-500 bg-white border rounded-md p-4">
-      {tournament.tournament.state === "pending" && (
+      {state === "pending" && (
         <Button
           disabled={startTournament.isLoading}
           onClick={() => {
             startTournament.mutate({
-              tournamentId: tournament.tournament.id.toString(),
+              tournamentId: id.toString(),
             });
           }}
           className="w-full"
         >
           {startTournament.isLoading ? "Starting..." : "Start Tournament"}
+        </Button>
+      )}
+
+      {state === "complete" && (
+        <Button variant="danger" className="w-full">
+          {startTournament.isLoading ? "Ending..." : "End Tournament"}
         </Button>
       )}
 

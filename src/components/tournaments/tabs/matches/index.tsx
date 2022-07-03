@@ -77,62 +77,73 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
   ).toFixed(2);
 
   return (
-    <div className="grid grid-cols-12 gap-4">
-      <div
-        className={`col-span-12 md:col-span-8 h-min transition-opacity ${
-          isLoading ? "opacity-50 animate-pulse" : "opacity-100"
-        }`}
-      >
-        <Collapsable
-          title={`Open - ${openMatches.length}`}
-          buttonClassname="!bg-green-100"
-          initialOpen
+    <>
+      <div className="grid grid-cols-12 gap-4">
+        <div
+          className={`col-span-12 md:col-span-8 h-min transition-opacity ${
+            isLoading ? "opacity-50 animate-pulse" : "opacity-100"
+          }`}
         >
-          {openMatches.length > 0 && (
-            <div className="mt-2 flex flex-col space-y-1">
-              {openMatches.map((match) => (
-                <MatchCard key={match.match.id} match={match} />
-              ))}
-            </div>
-          )}
-        </Collapsable>
+          <Collapsable
+            title={`Open - ${openMatches.length}`}
+            buttonClassname="!bg-green-100"
+            initialOpen
+          >
+            {openMatches.length > 0 && (
+              <div className="mt-2 flex flex-col space-y-1">
+                {openMatches.map((match) => (
+                  <MatchCard key={match.match.id} match={match} />
+                ))}
+              </div>
+            )}
+          </Collapsable>
 
-        <Collapsable
-          title={`Pending - ${pendingMatches.length}`}
-          buttonClassname="!bg-yellow-100"
-          containerClassname="mt-4"
-          initialOpen
-        >
-          {pendingMatches.length > 0 && (
-            <div className="mt-2 flex flex-col space-y-1">
-              {pendingMatches.map((match) => (
-                <MatchCard key={match.match.id} match={match} />
-              ))}
-            </div>
-          )}
-        </Collapsable>
+          <Collapsable
+            title={`Pending - ${pendingMatches.length}`}
+            buttonClassname="!bg-yellow-100"
+            containerClassname="mt-4"
+            initialOpen
+          >
+            {pendingMatches.length > 0 && (
+              <div className="mt-2 flex flex-col space-y-1">
+                {pendingMatches.map((match) => (
+                  <MatchCard key={match.match.id} match={match} />
+                ))}
+              </div>
+            )}
+          </Collapsable>
 
-        <Collapsable
-          title={`Complete - ${completedMatches.length}`}
-          buttonClassname="!bg-blue-100"
-          containerClassname="mt-4"
-          initialOpen
-        >
-          {completedMatches.length > 0 && (
-            <div className="mt-2 flex flex-col space-y-1">
-              {completedMatches.map((match) => (
-                <MatchCard key={match.match.id} match={match} />
-              ))}
-            </div>
-          )}
-        </Collapsable>
+          <Collapsable
+            title={`Complete - ${completedMatches.length}`}
+            buttonClassname="!bg-blue-100"
+            containerClassname="mt-4"
+            initialOpen
+          >
+            {completedMatches.length > 0 && (
+              <div className="mt-2 flex flex-col space-y-1">
+                {completedMatches.map((match) => (
+                  <MatchCard key={match.match.id} match={match} />
+                ))}
+              </div>
+            )}
+          </Collapsable>
+        </div>
+
+        <SidePanel
+          matchProgress={matchProgress}
+          tournament={tournament}
+          matches={matches}
+        />
       </div>
 
-      <SidePanel
-        matchProgress={matchProgress}
-        tournament={tournament}
-        matches={matches}
-      />
-    </div>
+      <div className="mt-10">
+        <h2 className="text-lg font-semibold my-2">Bracket Preview</h2>
+        <img
+          className="text-gray-500 p-4 border min-h-[256px] rounded-md bg-white w-full object-contain"
+          src={`${tournament.tournament.live_image_url}?${Date.now()}`}
+          alt="Loading Preview..."
+        />
+      </div>
+    </>
   );
 };

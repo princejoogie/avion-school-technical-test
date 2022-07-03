@@ -38,6 +38,8 @@ export const serverRoutes = Object.freeze({
     matches: {
       getAll: (tournamentId: string) =>
         `/tournaments/${tournamentId}/matches.json`,
+      update: (tournamentId: string, matchId: string) =>
+        `/tournaments/${tournamentId}/matches/${matchId}.json`,
     },
   },
 });
@@ -91,6 +93,8 @@ export const clientRoutes = Object.freeze({
     },
     matches: {
       getAll: (tournamentId: string) => `/tournaments/${tournamentId}/matches`,
+      update: (tournamentId: string, matchId: string) =>
+        `/tournaments/${tournamentId}/matches/${matchId}`,
     },
   },
 });

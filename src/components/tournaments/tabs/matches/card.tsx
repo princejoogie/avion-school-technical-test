@@ -35,7 +35,7 @@ export const MatchCard = ({ match }: MatchCardProps) => {
       <button
         onClick={() => setIsOpen(true)}
         type="button"
-        className="w-full bg-white text-gray-700 p-2 rounded border"
+        className="w-full transition-colors bg-white hover:bg-gray-100 text-gray-700 p-2 rounded border"
       >
         <div className="text-sm flex items-center space-x-6 justify-between">
           <div className="flex items-center space-x-2 justify-end flex-1">

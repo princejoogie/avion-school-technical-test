@@ -50,14 +50,6 @@ const effect: Variants = {
   },
 };
 
-/*
- * className="
- *   z-50 fixed inset-0
- *   flex items-center justify-center
- *   bg-backdrop backdrop-filter backdrop-blur-sm
- * "
- */
-
 const Backdrop = ({ children, handleClose }: BackdropProps) => (
   <motion.div
     className="bg-black bg-opacity-50 fixed flex items-center justify-center z-50 inset-0"
