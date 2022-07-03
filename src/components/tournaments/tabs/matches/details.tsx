@@ -92,11 +92,16 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
   }, [p1Score, p2Score]);
 
   const updateMatch = useMutation(MatchesService.update, {
-    onSettled: () =>
+    onSettled: () => {
       queryClient.invalidateQueries([
         "matches",
         { tournamentId: match.match.tournament_id },
-      ]),
+      ]);
+      queryClient.invalidateQueries([
+        "tournament",
+        { tournamentId: match.match.tournament_id.toString() },
+      ]);
+    },
   });
 
   return (
