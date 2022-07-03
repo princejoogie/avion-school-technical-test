@@ -15,6 +15,7 @@ export const matchResponse = z.object({
       round: z.number(),
       scores_csv: z.string(),
       state: z.string(),
+      tournament_id: z.number(),
       winner_id: z.number().nullable(),
       // TODO: add more fields
     })

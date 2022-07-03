@@ -1,7 +1,14 @@
-import React, { useState } from "react";
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-extra-boolean-cast */
+import React, { useEffect, useState } from "react";
+import { useMutation } from "react-query";
 
 import { MatchWithParticipant } from "@/types";
 import { Participant } from "@/services/tournaments/participants/common";
+import { TextInput } from "@/components/text-input";
+import { Button } from "@/components/button";
+import { MatchesService } from "@/services/tournaments/matches";
+import { queryClient } from "@/pages/_app";
 
 export interface MatchDetailsProps {
   match: MatchWithParticipant;
@@ -43,8 +50,7 @@ const ItemContainer = ({ player, score, isWinner }: ItemContainerProps) => {
           isWinner ? "bg-blue-500 text-white" : "bg-gray-50 text-black"
         }`}
       >
-        {/* eslint-disable-next-line no-extra-boolean-cast */}
-        {!!score ? score : "N/A"}
+        {!!score ? score : "-"}
       </p>
     </div>
   );
@@ -54,7 +60,7 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
   const [tab, setTab] = useState<"match_details" | "report_scores">(
     "match_details"
   );
-  const { winner_id } = match.match;
+  const { state, winner_id } = match.match;
   const { player1, player2 } = match;
 
   const score = match.match.scores_csv.split("-");
@@ -63,6 +69,35 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
 
   const player1Win = player1?.participant.id === winner_id;
   const player2Win = player2?.participant.id === winner_id;
+
+  const [p1Score, setP1Score] = useState(!!player1Score ? player1Score : "0");
+  const [p2Score, setP2Score] = useState(!!player2Score ? player2Score : "0");
+
+  const [winnerId, setWinnerId] = useState<string | null>(
+    player1Win
+      ? player1.participant.id.toString()
+      : player2Win
+      ? player2.participant.id.toString()
+      : null
+  );
+
+  useEffect(() => {
+    if (+p1Score > +p2Score) {
+      setWinnerId(player1?.participant.id.toString() ?? null);
+    } else if (+p2Score > +p1Score) {
+      setWinnerId(player2?.participant.id.toString() ?? null);
+    } else {
+      setWinnerId("tie");
+    }
+  }, [p1Score, p2Score]);
+
+  const updateMatch = useMutation(MatchesService.update, {
+    onSettled: () =>
+      queryClient.invalidateQueries([
+        "matches",
+        { tournamentId: match.match.tournament_id },
+      ]),
+  });
 
   return (
     <>
@@ -84,22 +119,24 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
           />
         </button>
 
-        <button
-          type="button"
-          disabled={tab === "report_scores"}
-          onClick={() => setTab("report_scores")}
-          className={`group transition-colors hover:bg-gray-50 ${
-            tab === "report_scores" ? "text-black" : ""
-          }`}
-        >
-          <p className="px-4 mt-2">Report scores</p>
-
-          <div
-            className={`hover:bg-gray-100 w-full mt-2 h-1 ${
-              tab === "report_scores" ? "bg-green-500" : "bg-white"
+        {state !== "pending" && (
+          <button
+            type="button"
+            disabled={tab === "report_scores"}
+            onClick={() => setTab("report_scores")}
+            className={`group transition-colors hover:bg-gray-50 ${
+              tab === "report_scores" ? "text-black" : ""
             }`}
-          />
-        </button>
+          >
+            <p className="px-4 mt-2">Report scores</p>
+
+            <div
+              className={`hover:bg-gray-100 w-full mt-2 h-1 ${
+                tab === "report_scores" ? "bg-green-500" : "bg-white"
+              }`}
+            />
+          </button>
+        )}
       </div>
 
       {tab === "match_details" ? (
@@ -121,7 +158,107 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
           />
         </div>
       ) : (
-        <div>Report Scores</div>
+        <div>
+          <table className="w-full mt-4">
+            <thead>
+              <tr className="text-left border-b">
+                <th className="px-3 py-2">Player</th>
+                <th className="px-3 py-2">Score</th>
+              </tr>
+            </thead>
+
+            <tbody className="text-gray-700 text-sm">
+              <tr className="bg-gray-50">
+                <td className="px-3 py-2 pr-44">
+                  {player1?.participant.name ?? "To be determined"}
+                </td>
+                <td className="px-3 py-2">
+                  <TextInput
+                    className="w-20 !bg-gray-100"
+                    type="number"
+                    value={p1Score}
+                    onChange={(e) => setP1Score(e.target.value)}
+                  />
+                </td>
+              </tr>
+              <tr className="bg-gray-100">
+                <td className="px-3 py-2 pr-44">
+                  {player2?.participant.name ?? "To be determined"}
+                </td>
+                <td className="px-3 py-2">
+                  <TextInput
+                    className="w-20"
+                    type="number"
+                    value={p2Score}
+                    onChange={(e) => setP2Score(e.target.value)}
+                  />
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+          <div className="mt-6">
+            <h4 className="text-center w-full font-semibold text-lg">
+              Verify the winner
+            </h4>
+
+            <div className="text-white flex items-center">
+              <button
+                type="button"
+                className={`px-6 py-1 flex-1 ${
+                  winnerId === player1?.participant.id.toString()
+                    ? "bg-blue-500"
+                    : "bg-gray-500"
+                }`}
+                onClick={() =>
+                  setWinnerId(player1?.participant.id.toString() ?? null)
+                }
+              >
+                {player1?.participant.name ?? (
+                  <span className="italic font-mono text-gray-500">
+                    To be determined
+                  </span>
+                )}
+              </button>
+
+              <button
+                type="button"
+                className={`px-6 py-1 flex-1 ${
+                  winnerId === player2?.participant.id.toString()
+                    ? "bg-blue-500"
+                    : "bg-gray-500"
+                }`}
+                onClick={() =>
+                  setWinnerId(player2?.participant.id.toString() ?? null)
+                }
+              >
+                <p>
+                  {player2?.participant.name ?? (
+                    <span className="italic font-mono text-gray-500">
+                      To be determined
+                    </span>
+                  )}
+                </p>
+              </button>
+            </div>
+
+            <div className="mt-6 flex justify-center">
+              <Button
+                disabled={updateMatch.isLoading}
+                onClick={() => {
+                  updateMatch.mutate({
+                    matchId: match.match.id.toString(),
+                    tournamentId: match.match.tournament_id.toString(),
+                    "match[scores_csv]": `${p1Score}-${p2Score}`,
+                    "match[winner_id]": winnerId,
+                  });
+                }}
+              >
+                Submit scores
+              </Button>
+            </div>
+          </div>
+        </div>
       )}
     </>
   );
