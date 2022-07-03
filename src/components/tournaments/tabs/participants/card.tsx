@@ -53,14 +53,18 @@ export const ParticipantCard = ({
             {seed}
           </span>
           <div className="inline-flex items-center space-x-1">
-            {attached_participatable_portrait_url && (
+            {attached_participatable_portrait_url ? (
               <img
                 className="h-8 w-8 rounded-full"
                 src={attached_participatable_portrait_url}
                 alt={name}
               />
+            ) : (
+              <div className="uppercase h-8 grid place-items-center w-8 rounded-full bg-gray-300">
+                {name[0] ?? "?"}
+              </div>
             )}
-            <span className="">{name}</span>
+            <span>{name}</span>
           </div>
         </div>
 
