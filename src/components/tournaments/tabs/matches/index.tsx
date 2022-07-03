@@ -3,6 +3,7 @@ import React from "react";
 import { useQuery } from "react-query";
 
 import { MatchCard, MatchWithParticipant } from "./card";
+import { SidePanel } from "./side-panel";
 
 import { Collapsable } from "@/components";
 import { Tournament } from "@/services/tournaments/common";
@@ -78,7 +79,7 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
     <div className="grid grid-cols-12 gap-4">
       <div
         className={`col-span-12 md:col-span-8 h-min transition-opacity ${
-          isLoading ? "opacity-30 animate-pulse" : "opacity-100"
+          isLoading ? "opacity-50 animate-pulse" : "opacity-100"
         }`}
       >
         <Collapsable
@@ -126,20 +127,11 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
         </Collapsable>
       </div>
 
-      <div className="h-min col-span-12 md:col-span-4 text-sm text-gray-500 bg-white border rounded-md p-4">
-        <h5>Match Progress</h5>
-
-        <div className="mt-1 text-white w-full rounded bg-gray-50 border overflow-hidden">
-          <p
-            className="text-center transition-all bg-blue-500"
-            style={{
-              width: `${matchProgress}%`,
-            }}
-          >
-            {matchProgress}%
-          </p>
-        </div>
-      </div>
+      <SidePanel
+        matchProgress={matchProgress}
+        tournament={tournament}
+        matches={matches}
+      />
     </div>
   );
 };

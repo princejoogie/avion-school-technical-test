@@ -22,6 +22,7 @@ export const serverRoutes = Object.freeze({
     create: "/tournaments.json",
     delete: (id: string) => `/tournaments/${id}.json`,
     getById: (id: string) => `/tournaments/${id}.json`,
+    start: (tournamentId: string) => `/tournaments/${tournamentId}/start.json`,
     participants: {
       getAll: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants.json`,
@@ -75,6 +76,7 @@ export const clientRoutes = Object.freeze({
     create: "/tournaments",
     delete: (id: string) => `/tournaments/${id}`,
     getById: (id: string) => `/tournaments/${id}`,
+    start: (tournamentId: string) => `/tournaments/${tournamentId}/start`,
     participants: {
       getAll: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants`,

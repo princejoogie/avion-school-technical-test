@@ -50,7 +50,13 @@ const Home: NextPage = () => {
           {tournaments.isLoading ? (
             <p className="text-center">Loading...</p>
           ) : filteredTournaments && filteredTournaments.length > 0 ? (
-            <div className="flex flex-col space-y-4">
+            <div
+              className={`flex flex-col space-y-4 ${
+                tournaments.isRefetching
+                  ? "opacity-50 animate-pulse"
+                  : "opacity-100"
+              }`}
+            >
               {filteredTournaments.map(({ tournament }) => (
                 <TournamentItem key={tournament.id} tournament={tournament} />
               ))}

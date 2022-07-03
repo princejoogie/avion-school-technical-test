@@ -72,7 +72,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
           <div
             className={`flex mb-10 w-full transition-opacity flex-col space-y-2 ${
               participants.isFetching || participants.isRefetching
-                ? "opacity-30 animate-pulse"
+                ? "opacity-50 animate-pulse"
                 : "opacity-100"
             }`}
           >
