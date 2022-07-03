@@ -11,13 +11,16 @@
     "prepare": "husky install"
   },
   "dependencies": {
+    "@headlessui/react": "^1.6.5",
     "@heroicons/react": "^1.0.6",
+    "@hookform/resolvers": "^2.9.3",
     "axios": "^0.27.2",
     "framer-motion": "^6.3.16",
     "next": "12.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-focus-lock": "^2.9.1",
+    "react-hook-form": "^7.33.1",
     "react-hot-toast": "^2.2.0",
     "react-query": "^3.39.1",
     "zod": "^3.17.3"

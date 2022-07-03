@@ -6,5 +6,6 @@ export * from "./icon-button";
 export * from "./layout";
 export * from "./modal";
 export * from "./navbar";
+export * from "./select";
 export * from "./tag";
 export * from "./text-input";
