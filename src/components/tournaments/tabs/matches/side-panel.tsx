@@ -86,6 +86,8 @@ export const SidePanel = ({
           </div>
         </>
       )}
+
+      {state === "complete" && <div>Tournament Complete</div>}
     </div>
   );
 };

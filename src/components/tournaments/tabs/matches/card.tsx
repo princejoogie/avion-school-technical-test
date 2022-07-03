@@ -4,12 +4,14 @@ import { MatchDetails } from "./details";
 
 import { Modal } from "@/components/modal";
 import { MatchWithParticipant } from "@/types";
+import { Tournament } from "@/services/tournaments/common";
 
 export interface MatchCardProps {
   match: MatchWithParticipant;
+  tournament: Tournament;
 }
 
-export const MatchCard = ({ match }: MatchCardProps) => {
+export const MatchCard = ({ match, tournament }: MatchCardProps) => {
   const { state, winner_id } = match.match;
   const { player1, player2 } = match;
 
@@ -29,7 +31,11 @@ export const MatchCard = ({ match }: MatchCardProps) => {
         handleClose={() => setIsOpen(false)}
         hideCloseButton
       >
-        <MatchDetails match={match} />
+        <MatchDetails
+          onUpdateFinish={() => setIsOpen(false)}
+          match={match}
+          tournament={tournament}
+        />
       </Modal>
 
       <button

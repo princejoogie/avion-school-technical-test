@@ -92,7 +92,11 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
             {openMatches.length > 0 && (
               <div className="mt-2 flex flex-col space-y-1">
                 {openMatches.map((match) => (
-                  <MatchCard key={match.match.id} match={match} />
+                  <MatchCard
+                    key={match.match.id}
+                    match={match}
+                    tournament={tournament}
+                  />
                 ))}
               </div>
             )}
@@ -107,7 +111,11 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
             {pendingMatches.length > 0 && (
               <div className="mt-2 flex flex-col space-y-1">
                 {pendingMatches.map((match) => (
-                  <MatchCard key={match.match.id} match={match} />
+                  <MatchCard
+                    key={match.match.id}
+                    match={match}
+                    tournament={tournament}
+                  />
                 ))}
               </div>
             )}
@@ -122,7 +130,11 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
             {completedMatches.length > 0 && (
               <div className="mt-2 flex flex-col space-y-1">
                 {completedMatches.map((match) => (
-                  <MatchCard key={match.match.id} match={match} />
+                  <MatchCard
+                    key={match.match.id}
+                    match={match}
+                    tournament={tournament}
+                  />
                 ))}
               </div>
             )}

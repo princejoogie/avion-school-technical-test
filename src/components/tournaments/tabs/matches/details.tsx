@@ -9,9 +9,12 @@ import { TextInput } from "@/components/text-input";
 import { Button } from "@/components/button";
 import { MatchesService } from "@/services/tournaments/matches";
 import { queryClient } from "@/pages/_app";
+import { Tournament } from "@/services/tournaments/common";
 
 export interface MatchDetailsProps {
   match: MatchWithParticipant;
+  tournament: Tournament;
+  onUpdateFinish: () => void;
 }
 
 interface ItemContainerProps {
@@ -56,7 +59,11 @@ const ItemContainer = ({ player, score, isWinner }: ItemContainerProps) => {
   );
 };
 
-export const MatchDetails = ({ match }: MatchDetailsProps) => {
+export const MatchDetails = ({
+  match,
+  tournament,
+  onUpdateFinish,
+}: MatchDetailsProps) => {
   const [tab, setTab] = useState<"match_details" | "report_scores">(
     "match_details"
   );
@@ -101,6 +108,7 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
         "tournament",
         { tournamentId: match.match.tournament_id.toString() },
       ]);
+      onUpdateFinish();
     },
   });
 
@@ -124,7 +132,7 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
           />
         </button>
 
-        {state !== "pending" && (
+        {state !== "pending" && tournament.tournament.state !== "complete" && (
           <button
             type="button"
             disabled={tab === "report_scores"}
@@ -259,7 +267,7 @@ export const MatchDetails = ({ match }: MatchDetailsProps) => {
                   });
                 }}
               >
-                Submit scores
+                {updateMatch.isLoading ? "Submitting..." : "Submit scores"}
               </Button>
             </div>
           </div>
