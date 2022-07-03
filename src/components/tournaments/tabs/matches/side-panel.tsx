@@ -1,12 +1,11 @@
 import React from "react";
 import { useMutation } from "react-query";
 
-import { MatchWithParticipant } from "./card";
-
 import { Tournament } from "@/services/tournaments/common";
 import { Button } from "@/components/button";
 import { TournamentService } from "@/services/tournaments";
 import { queryClient } from "@/pages/_app";
+import { MatchWithParticipant } from "@/types";
 
 export interface SidePanelProps {
   tournament: Tournament;

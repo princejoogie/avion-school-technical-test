@@ -1,20 +1,22 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-nested-ternary */
 import React, { useState } from "react";
 import type { NextPage } from "next";
-import { useMutation, useQuery } from "react-query";
+import Link from "next/link";
+import { useQuery } from "react-query";
 
-import { Button, Layout, tournamentStates } from "@/components";
+import { Layout, tournamentStates } from "@/components";
 import { TournamentService } from "@/services/tournaments";
 import { TournamentState } from "@/services/tournaments/common";
-import { queryClient } from "@/pages/_app";
 import { TournamentItem } from "@/components/tournaments";
 
 const Home: NextPage = () => {
   const [state, setState] = useState<TournamentState>("all");
-  const tournaments = useQuery("tournaments", () => TournamentService.getAll());
-  const create = useMutation(TournamentService.create, {
-    onSuccess: () => queryClient.invalidateQueries("tournaments"),
-  });
+  const tournaments = useQuery(
+    "tournaments",
+    () => TournamentService.getAll(),
+    { refetchOnWindowFocus: false }
+  );
 
   const filteredTournaments = tournaments.data
     ?.filter((t) => t.tournament.state === state || state === "all")
@@ -28,25 +30,15 @@ const Home: NextPage = () => {
     <Layout>
       <div className="flex my-10 items-center justify-between">
         <h2 className="text-2xl font-semibold">Your tournaments</h2>
-        <Button
-          variant="warning"
-          type="button"
-          disabled={create.isLoading}
-          onClick={() => {
-            create.mutate({
-              "tournament[name]": `Tournament ${new Date().toLocaleTimeString()}`,
-              "tournament[description]": "lorem ipsum",
-              "tournament[open_signup]": true,
-              "tournament[tournament_type]": "single elimination",
-            });
-          }}
-        >
-          {create.isLoading ? "Creating..." : "Create a tournament"}
-        </Button>
+        <Link href="/new">
+          <a className="text-blue-500 hover:bg-gray-100 active:opacity-70 px-4 py-2 rounded">
+            + Create a tournament
+          </a>
+        </Link>
       </div>
 
-      <div className="flex items-start space-x-4 text-gray-500">
-        <div className="flex-1">
+      <div className="grid grid-cols-12 gap-4 text-gray-500">
+        <div className="col-span-12 md:col-span-8 h-min">
           {tournaments.isLoading ? (
             <p className="text-center">Loading...</p>
           ) : filteredTournaments && filteredTournaments.length > 0 ? (
@@ -66,7 +58,7 @@ const Home: NextPage = () => {
           )}
         </div>
 
-        <div className="flex flex-col items-start">
+        <div className="col-span-12 md:col-span-4 h-min">
           {tournamentStates.map((e) => (
             <button
               type="button"
@@ -78,7 +70,7 @@ const Home: NextPage = () => {
                   : "border-transparent"
               }`}
             >
-              <p className="text-left flex-1 mr-28">{e.label}</p>
+              <p className="text-left flex-1">{e.label}</p>
               <p>
                 {e.value === "all"
                   ? tournaments.data?.length ?? 0

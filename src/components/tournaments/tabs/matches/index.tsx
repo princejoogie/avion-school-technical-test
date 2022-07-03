@@ -2,13 +2,14 @@
 import React from "react";
 import { useQuery } from "react-query";
 
-import { MatchCard, MatchWithParticipant } from "./card";
+import { MatchCard } from "./card";
 import { SidePanel } from "./side-panel";
 
 import { Collapsable } from "@/components";
-import { Tournament } from "@/services/tournaments/common";
+import { MatchWithParticipant } from "@/types";
 import { MatchesService } from "@/services/tournaments/matches";
 import { ParticipantsService } from "@/services/tournaments/participants";
+import { Tournament } from "@/services/tournaments/common";
 
 export interface MatchesTabProps {
   tournament: Tournament;
