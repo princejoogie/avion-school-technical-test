@@ -67,52 +67,79 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
     .filter(({ match }) => match.state === "complete")
     .sort((a, b) => a.match.round - b.match.round);
 
+  const isLoading =
+    tournamentMatches.isRefetching || tournamentParticipants.isRefetching;
+  const matchProgress = (
+    (completedMatches.length / matches.length) *
+    100
+  ).toFixed(2);
+
   return (
-    <div>
-      {/* <img */}
-      {/*   src={`${tournament.tournament.live_image_url}?${Date.now()}`} */}
-      {/*   alt="tournament progrees" */}
-      {/*   className="w-full object-fill" */}
-      {/*   placeholder="tournament progress" */}
-      {/* /> */}
-
-      <Collapsable
-        title={`Open - ${openMatches.length}`}
-        buttonClassname="!bg-green-100"
-        initialOpen
+    <div className="grid grid-cols-12 gap-4">
+      <div
+        className={`col-span-12 md:col-span-8 h-min transition-opacity ${
+          isLoading ? "opacity-30 animate-pulse" : "opacity-100"
+        }`}
       >
-        <div className="mt-2 flex flex-col space-y-1">
-          {openMatches.map((match) => (
-            <MatchCard key={match.match.id} match={match} />
-          ))}
-        </div>
-      </Collapsable>
+        <Collapsable
+          title={`Open - ${openMatches.length}`}
+          buttonClassname="!bg-green-100"
+          initialOpen
+        >
+          {openMatches.length > 0 && (
+            <div className="mt-2 flex flex-col space-y-1">
+              {openMatches.map((match) => (
+                <MatchCard key={match.match.id} match={match} />
+              ))}
+            </div>
+          )}
+        </Collapsable>
 
-      <Collapsable
-        title={`Pending - ${pendingMatches.length}`}
-        buttonClassname="!bg-yellow-100"
-        containerClassname="mt-4"
-        initialOpen
-      >
-        <div className="mt-2 flex flex-col space-y-1">
-          {pendingMatches.map((match) => (
-            <MatchCard key={match.match.id} match={match} />
-          ))}
-        </div>
-      </Collapsable>
+        <Collapsable
+          title={`Pending - ${pendingMatches.length}`}
+          buttonClassname="!bg-yellow-100"
+          containerClassname="mt-4"
+          initialOpen
+        >
+          {pendingMatches.length > 0 && (
+            <div className="mt-2 flex flex-col space-y-1">
+              {pendingMatches.map((match) => (
+                <MatchCard key={match.match.id} match={match} />
+              ))}
+            </div>
+          )}
+        </Collapsable>
 
-      <Collapsable
-        title={`Complete - ${completedMatches.length}`}
-        buttonClassname="!bg-blue-100"
-        containerClassname="mt-4"
-        initialOpen
-      >
-        <div className="mt-2 flex flex-col space-y-1">
-          {completedMatches.map((match) => (
-            <MatchCard key={match.match.id} match={match} />
-          ))}
+        <Collapsable
+          title={`Complete - ${completedMatches.length}`}
+          buttonClassname="!bg-blue-100"
+          containerClassname="mt-4"
+          initialOpen
+        >
+          {completedMatches.length > 0 && (
+            <div className="mt-2 flex flex-col space-y-1">
+              {completedMatches.map((match) => (
+                <MatchCard key={match.match.id} match={match} />
+              ))}
+            </div>
+          )}
+        </Collapsable>
+      </div>
+
+      <div className="h-min col-span-12 md:col-span-4 text-sm text-gray-500 bg-white border rounded-md p-4">
+        <h5>Match Progress</h5>
+
+        <div className="mt-1 text-white w-full rounded bg-gray-50 border overflow-hidden">
+          <p
+            className="text-center transition-all bg-blue-500"
+            style={{
+              width: `${matchProgress}%`,
+            }}
+          >
+            {matchProgress}%
+          </p>
         </div>
-      </Collapsable>
+      </div>
     </div>
   );
 };

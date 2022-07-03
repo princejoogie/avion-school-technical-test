@@ -20,9 +20,7 @@ export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
   const participants = useQuery(
     ["participants", { tournamentId }],
     () => ParticipantsService.getAll({ tournamentId: tournamentId.toString() }),
-    {
-      refetchOnWindowFocus: false,
-    }
+    { refetchOnWindowFocus: false }
   );
   const randomize = useMutation(ParticipantsService.randomize, {
     onSuccess: () =>

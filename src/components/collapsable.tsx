@@ -19,7 +19,7 @@ export const Collapsable = ({
   const [isOpen, setIsOpen] = useState(initialOpen);
 
   return (
-    <div className={`w-full md:w-2/3 ${containerClassname}`}>
+    <div className={`w-full ${containerClassname}`}>
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
@@ -32,7 +32,7 @@ export const Collapsable = ({
           }`}
         />
       </button>
-      {isOpen && <div className="ml-4">{children}</div>}
+      {isOpen && children && <div className="ml-4">{children}</div>}
     </div>
   );
 };

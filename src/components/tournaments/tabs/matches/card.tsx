@@ -61,7 +61,7 @@ export const MatchCard = ({ match }: { match: MatchWithParticipant }) => {
 
         <p className="font-bold">VS</p>
 
-        <div className="mt-1 flex items-center space-x-2 justify-start flex-1">
+        <div className="flex items-center space-x-2 justify-start flex-1">
           {player2Score && state === "complete" && (
             <p
               className={`rounded font-mono px-4 border ${
