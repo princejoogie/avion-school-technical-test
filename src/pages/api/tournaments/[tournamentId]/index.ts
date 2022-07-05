@@ -2,6 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 import { serverApi, serverRoutes } from "@/services/api-base";
 import { getByIdParams } from "@/services/tournaments/get-by-id";
+import { udpateTournamentParams } from "@/services/tournaments/update";
 import { tournamentResponse } from "@/services/tournaments/common";
 import { deleteTournamentParams } from "@/services/tournaments/delete";
 import { handleError } from "@/utils";
@@ -25,6 +26,16 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       );
       const data = await tournamentResponse.parseAsync(response.data);
       return res.status(200).json(data);
+    }
+
+    if (req.method === "PUT") {
+      const params = await udpateTournamentParams.parseAsync(req.body);
+      const response = await serverApi.put(
+        serverRoutes.tournaments.update(tournamentId),
+        null,
+        { params }
+      );
+      return res.status(200).json(response.data);
     }
 
     if (req.method === "DELETE") {

@@ -18,13 +18,14 @@ export const serverApi = axios.create({
 
 export const serverRoutes = Object.freeze({
   tournaments: {
-    getAll: "/tournaments.json",
     create: "/tournaments.json",
     delete: (id: string) => `/tournaments/${id}.json`,
-    getById: (id: string) => `/tournaments/${id}.json`,
-    start: (tournamentId: string) => `/tournaments/${tournamentId}/start.json`,
     finalize: (tournamentId: string) =>
       `/tournaments/${tournamentId}/finalize.json`,
+    getAll: "/tournaments.json",
+    getById: (id: string) => `/tournaments/${id}.json`,
+    start: (tournamentId: string) => `/tournaments/${tournamentId}/start.json`,
+    update: (id: string) => `/tournaments/${id}.json`,
     participants: {
       getAll: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants.json`,
@@ -76,12 +77,13 @@ clientApi.interceptors.response.use(
 
 export const clientRoutes = Object.freeze({
   tournaments: {
-    getAll: "/tournaments",
     create: "/tournaments",
     delete: (id: string) => `/tournaments/${id}`,
+    finalize: (tournamentId: string) => `/tournaments/${tournamentId}/finalize`,
+    getAll: "/tournaments",
     getById: (id: string) => `/tournaments/${id}`,
     start: (tournamentId: string) => `/tournaments/${tournamentId}/start`,
-    finalize: (tournamentId: string) => `/tournaments/${tournamentId}/finalize`,
+    update: (id: string) => `/tournaments/${id}`,
     participants: {
       getAll: (tournamentId: string) =>
         `/tournaments/${tournamentId}/participants`,

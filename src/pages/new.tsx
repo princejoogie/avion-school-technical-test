@@ -4,33 +4,16 @@ import { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
 import { queryClient } from "./_app";
 
 import { Layout, Button, TextInput, Select } from "@/components";
 import { TournamentService } from "@/services/tournaments";
-
-const tournamentTypes = [
-  "single elimination",
-  "double elimination",
-  "round robin",
-  "swiss",
-];
-
-export const newTournamenSchema = z.object({
-  tournamentName: z.string().min(3, "Name must be at least 3 characters"),
-  tournamentType: z.enum([
-    "single elimination",
-    "double elimination",
-    "round robin",
-    "swiss",
-  ]),
-  tournamentDescription: z
-    .string()
-    .min(3, "Description must be at least 3 characters"),
-  openSignup: z.boolean().default(true),
-});
+import {
+  newTournamenSchema,
+  NewTournamentSchema,
+  tournamentTypes,
+} from "@/services/tournaments/common";
 
 const NewTournament: NextPage = () => {
   const router = useRouter();
@@ -45,7 +28,7 @@ const NewTournament: NextPage = () => {
     control,
     handleSubmit,
     formState: { errors, touchedFields: touched, isValid },
-  } = useForm<z.infer<typeof newTournamenSchema>>({
+  } = useForm<NewTournamentSchema>({
     resolver: zodResolver(newTournamenSchema),
     mode: "all",
     shouldFocusError: true,

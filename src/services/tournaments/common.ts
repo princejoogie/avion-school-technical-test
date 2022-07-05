@@ -31,3 +31,26 @@ export const tournamentResponse = z.object({
 export type Tournament = z.infer<typeof tournamentResponse>;
 
 export type TournamentState = Tournament["tournament"]["state"];
+
+export const newTournamenSchema = z.object({
+  tournamentName: z.string().min(3, "Name must be at least 3 characters"),
+  tournamentType: z.enum([
+    "single elimination",
+    "double elimination",
+    "round robin",
+    "swiss",
+  ]),
+  tournamentDescription: z
+    .string()
+    .min(3, "Description must be at least 3 characters"),
+  openSignup: z.boolean().default(true),
+});
+
+export type NewTournamentSchema = z.infer<typeof newTournamenSchema>;
+
+export const tournamentTypes = [
+  "single elimination",
+  "double elimination",
+  "round robin",
+  "swiss",
+];

@@ -4,6 +4,7 @@ import { finalizeTournament } from "./finalize";
 import { getAll } from "./get-all";
 import { getById } from "./get-by-id";
 import { startTournament } from "./start";
+import { update } from "./update";
 
 export const TournamentService = Object.freeze({
   create,
@@ -12,4 +13,5 @@ export const TournamentService = Object.freeze({
   getAll,
   getById,
   startTournament,
+  update,
 });

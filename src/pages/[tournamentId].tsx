@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
-import { UsersIcon, PuzzleIcon, ReceiptTaxIcon } from "@heroicons/react/solid";
+import {
+  UsersIcon,
+  DocumentTextIcon,
+  ReceiptTaxIcon,
+} from "@heroicons/react/solid";
 
 import { Layout } from "@/components";
 import { TournamentService } from "@/services/tournaments";
@@ -38,7 +42,7 @@ const TournamentPage: NextPage = () => {
     );
   }
 
-  const { name, participants_count, tournament_type, game_name } =
+  const { name, participants_count, tournament_type, description } =
     tournament.data.tournament;
 
   return (
@@ -59,16 +63,8 @@ const TournamentPage: NextPage = () => {
             </div>
 
             <div className="flex items-center space-x-2">
-              <PuzzleIcon className="h-4 w-4" />
-              <span
-                className={`mr-1 ml-3 ${
-                  game_name === null
-                    ? "italic text-gray-400"
-                    : "not-italic text-gray-500"
-                }`}
-              >
-                {game_name ?? "Game not specified"}
-              </span>
+              <DocumentTextIcon className="h-4 w-4" />
+              <span className="mr-1 ml-3 capitalize">{description}</span>
             </div>
           </div>
         </div>
