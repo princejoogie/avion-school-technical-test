@@ -40,7 +40,7 @@ export const ParticipantCard = ({
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournament.tournament.id.toString() },
+        { tournamentId: Number(tournament.tournament.id) },
       ]);
     },
   });

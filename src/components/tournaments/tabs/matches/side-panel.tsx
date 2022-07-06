@@ -26,7 +26,7 @@ export const SidePanel = ({
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournament.tournament.id.toString() },
+        { tournamentId: Number(tournament.tournament.id) },
       ]);
     },
   });
@@ -39,7 +39,7 @@ export const SidePanel = ({
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournament.tournament.id.toString() },
+        { tournamentId: Number(tournament.tournament.id) },
       ]);
     },
   });

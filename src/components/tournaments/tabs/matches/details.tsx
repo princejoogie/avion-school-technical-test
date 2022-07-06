@@ -106,7 +106,7 @@ export const MatchDetails = ({
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: match.match.tournament_id.toString() },
+        { tournamentId: Number(match.match.tournament_id) },
       ]);
       onUpdateFinish();
     },

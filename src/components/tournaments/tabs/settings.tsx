@@ -31,7 +31,7 @@ export const SettingsTab = ({ tournament }: SettingsTabProps) => {
     onSuccess: () =>
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournament.tournament.id.toString() },
+        { tournamentId: Number(tournament.tournament.id) },
       ]),
   });
 
