@@ -22,8 +22,9 @@ const TournamentPage: NextPage = () => {
   const { tournamentId } = router.query;
 
   // queries and mutations
-  const tournament = useQuery(["tournament", { tournamentId }], () =>
-    TournamentService.getById({ tournamentId: tournamentId as string })
+  const tournament = useQuery(
+    ["tournament", { tournamentId: Number(tournamentId) }],
+    () => TournamentService.getById({ tournamentId: tournamentId as string })
   );
 
   if (tournament.isLoading) {

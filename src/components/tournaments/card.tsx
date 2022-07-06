@@ -1,14 +1,18 @@
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { UsersIcon, CheckIcon } from "@heroicons/react/solid";
 
 import { Tag } from "../tag";
 
 import { Tournament } from "@/services/tournaments/common";
+import { queryClient } from "@/pages/_app";
+import { TournamentService } from "@/services/tournaments";
 
 export const TournamentItem = ({ tournament }: Tournament) => {
+  const [hovered, setHovered] = useState(false);
+
   const {
     state,
     id,
@@ -21,7 +25,18 @@ export const TournamentItem = ({ tournament }: Tournament) => {
 
   return (
     <Link href={`/${id}`}>
-      <a className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors">
+      <a
+        onMouseOver={() => {
+          if (!hovered) {
+            setHovered(true);
+            queryClient.prefetchQuery(
+              ["tournament", { tournamentId: id }],
+              () => TournamentService.getById({ tournamentId: id.toString() })
+            );
+          }
+        }}
+        className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
+      >
         <div>
           <h4 className="text-black font-semibold text-lg">{name}</h4>
           <p className="capitalize text-sm text-neutral-500">

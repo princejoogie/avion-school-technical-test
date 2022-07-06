@@ -25,7 +25,7 @@ export const AddParticipantCard = ({
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: tournamentId.toString() },
+        { tournamentId: Number(tournamentId) },
       ]);
     },
   });
