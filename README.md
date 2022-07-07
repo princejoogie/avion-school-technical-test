@@ -22,6 +22,8 @@ yarn dev
 | react-query | Client-side api caching | `^3.39.1` |
 | zod         | Validation              | `^3.17.3` |
 
+### 🎆 99% [Lighthouse Report](https://challonge.joogie.link/lighthouse-report.html/) 🎆
+
 ---
 
 ## Journey
