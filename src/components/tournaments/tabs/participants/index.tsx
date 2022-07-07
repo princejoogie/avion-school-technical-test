@@ -18,13 +18,16 @@ export interface ParticipantsTabProps {
 export const ParticipantsTab = ({ tournament }: ParticipantsTabProps) => {
   const { id: tournamentId, state } = tournament.tournament;
   const participants = useQuery(
-    ["participants", { tournamentId }],
+    ["participants", { tournamentId: tournamentId.toString() }],
     () => ParticipantsService.getAll({ tournamentId: tournamentId.toString() }),
     { refetchOnWindowFocus: false }
   );
   const randomize = useMutation(ParticipantsService.randomize, {
     onSuccess: () =>
-      queryClient.invalidateQueries(["participants", { tournamentId }]),
+      queryClient.invalidateQueries([
+        "participants",
+        { tournamentId: tournamentId.toString() },
+      ]),
   });
 
   if (participants.isLoading) {

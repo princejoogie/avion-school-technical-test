@@ -1,7 +1,9 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 /* eslint-disable no-nested-ternary */
 import React, { useState } from "react";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useQuery } from "react-query";
 import {
   UsersIcon,
@@ -23,8 +25,9 @@ const TournamentPage: NextPage = () => {
 
   // queries and mutations
   const tournament = useQuery(
-    ["tournament", { tournamentId: Number(tournamentId) }],
-    () => TournamentService.getById({ tournamentId: tournamentId as string })
+    ["tournament", { tournamentId: tournamentId as string }],
+    () => TournamentService.getById({ tournamentId: tournamentId as string }),
+    { retry: 0, refetchOnWindowFocus: false }
   );
 
   if (tournament.isLoading) {
@@ -37,8 +40,13 @@ const TournamentPage: NextPage = () => {
 
   if (!tournament.data) {
     return (
-      <Layout>
-        <h2 className="my-10 text-center">Tournament not found</h2>
+      <Layout className="flex flex-col items-center">
+        <h2 className="mt-10 text-center">Tournament not found</h2>
+        <Link href="/" replace>
+          <a className="mt-1 text-blue-500 hover:bg-gray-100 active:opacity-70 px-4 py-2 rounded">
+            Back to home
+          </a>
+        </Link>
       </Layout>
     );
   }

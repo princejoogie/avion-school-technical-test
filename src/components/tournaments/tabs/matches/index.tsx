@@ -19,13 +19,13 @@ export const MatchesTab = ({ tournament }: MatchesTabProps) => {
   const { id: tournamentId } = tournament.tournament;
 
   const tournamentMatches = useQuery(
-    ["matches", { tournamentId }],
+    ["matches", { tournamentId: tournamentId.toString() }],
     () => MatchesService.getAll({ tournamentId: tournamentId.toString() }),
     { refetchOnWindowFocus: false }
   );
 
   const tournamentParticipants = useQuery(
-    ["participants", { tournamentId }],
+    ["participants", { tournamentId: tournamentId.toString() }],
     () => ParticipantsService.getAll({ tournamentId: tournamentId.toString() }),
     { refetchOnWindowFocus: false }
   );

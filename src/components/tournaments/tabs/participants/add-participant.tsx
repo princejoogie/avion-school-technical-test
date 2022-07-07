@@ -21,11 +21,11 @@ export const AddParticipantCard = ({
       setEmail("");
       queryClient.invalidateQueries([
         "participants",
-        { tournamentId: Number(tournamentId) },
+        { tournamentId: tournamentId.toString() },
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: Number(tournamentId) },
+        { tournamentId: tournamentId.toString() },
       ]);
     },
   });

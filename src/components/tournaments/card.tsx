@@ -21,7 +21,7 @@ export const TournamentItem = ({ tournament }: TournamentItemProps) => {
 
   const {
     state,
-    id: tournamentId,
+    id,
     name,
     participants_count,
     completed_at,
@@ -30,25 +30,31 @@ export const TournamentItem = ({ tournament }: TournamentItemProps) => {
   } = tournament.tournament;
 
   return (
-    <Link href={`/${tournamentId}`}>
+    <Link href={`/${id}`}>
       <a
         onMouseOver={() => {
           if (!hovered) {
             setHovered(true);
-            queryClient.prefetchQuery(["tournament", { tournamentId }], () =>
-              TournamentService.getById({
-                tournamentId: tournamentId.toString(),
-              })
+            queryClient.prefetchQuery(
+              ["tournament", { tournamentId: id.toString() }],
+              () =>
+                TournamentService.getById({
+                  tournamentId: id.toString(),
+                })
             );
-            queryClient.prefetchQuery(["matches", { tournamentId }], () =>
-              MatchesService.getAll({
-                tournamentId: tournamentId.toString(),
-              })
+            queryClient.prefetchQuery(
+              ["matches", { tournamentId: id.toString() }],
+              () =>
+                MatchesService.getAll({
+                  tournamentId: id.toString(),
+                })
             );
-            queryClient.prefetchQuery(["participants", { tournamentId }], () =>
-              ParticipantsService.getAll({
-                tournamentId: tournamentId.toString(),
-              })
+            queryClient.prefetchQuery(
+              ["participants", { tournamentId: id.toString() }],
+              () =>
+                ParticipantsService.getAll({
+                  tournamentId: id.toString(),
+                })
             );
           }
         }}

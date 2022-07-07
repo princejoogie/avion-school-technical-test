@@ -102,11 +102,11 @@ export const MatchDetails = ({
     onSettled: () => {
       queryClient.invalidateQueries([
         "matches",
-        { tournamentId: match.match.tournament_id },
+        { tournamentId: match.match.tournament_id.toString() },
       ]);
       queryClient.invalidateQueries([
         "tournament",
-        { tournamentId: Number(match.match.tournament_id) },
+        { tournamentId: match.match.tournament_id.toString() },
       ]);
       onUpdateFinish();
     },
