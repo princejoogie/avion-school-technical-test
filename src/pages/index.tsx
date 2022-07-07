@@ -4,8 +4,9 @@ import React, { useState } from "react";
 import type { NextPage } from "next";
 import Link from "next/link";
 import { useQuery } from "react-query";
+import { UsersIcon } from "@heroicons/react/solid";
 
-import { Layout, tournamentStates } from "@/components";
+import { Layout, Tag, tournamentStates } from "@/components";
 import { TournamentService } from "@/services/tournaments";
 import { TournamentState } from "@/services/tournaments/common";
 import { TournamentItem } from "@/components/tournaments";
@@ -39,9 +40,7 @@ const Home: NextPage = () => {
 
       <div className="grid grid-cols-12 gap-4 text-gray-500">
         <div className="col-span-12 md:col-span-8 h-min">
-          {tournaments.isLoading ? (
-            <p className="text-center">Loading...</p>
-          ) : filteredTournaments && filteredTournaments.length > 0 ? (
+          {!tournaments.isError ? (
             <div
               className={`flex flex-col space-y-4 ${
                 tournaments.isRefetching
@@ -49,9 +48,41 @@ const Home: NextPage = () => {
                   : "opacity-100"
               }`}
             >
-              {filteredTournaments.map(({ tournament }) => (
-                <TournamentItem key={tournament.id} tournament={tournament} />
-              ))}
+              {tournaments.isLoading
+                ? Array(3)
+                    .fill(0)
+                    .map((_, idx) => (
+                      <div
+                        // eslint-disable-next-line react/no-array-index-key
+                        key={`skeleton-${idx}`}
+                        className="bg-white animate-pulse text-gray-200 border items-start flex justify-between p-4 rounded-md"
+                      >
+                        <div className="flex-1">
+                          <h3 className="font-semibold text-lg w-3/4 text-gray-100 bg-gray-100 rounded">
+                            Loading name
+                          </h3>
+                          <p className="mt-1 capitalize bg-gray-200 rounded w-1/2 text-sm">
+                            Hello
+                          </p>
+                        </div>
+
+                        <div className="text-xs flex flex-col items-end">
+                          <div className="flex items-center">
+                            <Tag state="none" />
+                            <span className="mr-1 ml-3 rounded bg-gray-200">
+                              00
+                            </span>
+                            <UsersIcon className="h-4 w-4" />
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                : filteredTournaments?.map((tournament) => (
+                    <TournamentItem
+                      key={tournament.tournament.id}
+                      tournament={tournament}
+                    />
+                  ))}
             </div>
           ) : (
             <p className="text-center">No tournaments were found.</p>

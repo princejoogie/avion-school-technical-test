@@ -10,7 +10,11 @@ import { Tournament } from "@/services/tournaments/common";
 import { queryClient } from "@/pages/_app";
 import { TournamentService } from "@/services/tournaments";
 
-export const TournamentItem = ({ tournament }: Tournament) => {
+export interface TournamentItemProps {
+  tournament: Tournament;
+}
+
+export const TournamentItem = ({ tournament }: TournamentItemProps) => {
   const [hovered, setHovered] = useState(false);
 
   const {
@@ -21,7 +25,7 @@ export const TournamentItem = ({ tournament }: Tournament) => {
     completed_at,
     tournament_type,
     game_name,
-  } = tournament;
+  } = tournament.tournament;
 
   return (
     <Link href={`/${id}`}>
@@ -38,7 +42,7 @@ export const TournamentItem = ({ tournament }: Tournament) => {
         className="bg-white border items-start flex justify-between p-4 rounded-md cursor-pointer hover:bg-gray-100 transition-colors"
       >
         <div>
-          <h4 className="text-black font-semibold text-lg">{name}</h4>
+          <h3 className="text-black font-semibold text-lg">{name}</h3>
           <p className="capitalize text-sm text-neutral-500">
             {tournament_type} {game_name}
           </p>

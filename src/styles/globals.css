@@ -4,6 +4,10 @@
 @tailwind components;
 @tailwind utilities;
 
+html {
+  overflow-y: scroll;
+}
+
 * {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
