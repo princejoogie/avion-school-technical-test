@@ -6,9 +6,11 @@ import { UsersIcon, CheckIcon } from "@heroicons/react/solid";
 
 import { Tag } from "../tag";
 
+import { MatchesService } from "@/services/tournaments/matches";
+import { ParticipantsService } from "@/services/tournaments/participants";
 import { Tournament } from "@/services/tournaments/common";
-import { queryClient } from "@/pages/_app";
 import { TournamentService } from "@/services/tournaments";
+import { queryClient } from "@/pages/_app";
 
 export interface TournamentItemProps {
   tournament: Tournament;
@@ -19,7 +21,7 @@ export const TournamentItem = ({ tournament }: TournamentItemProps) => {
 
   const {
     state,
-    id,
+    id: tournamentId,
     name,
     participants_count,
     completed_at,
@@ -28,14 +30,25 @@ export const TournamentItem = ({ tournament }: TournamentItemProps) => {
   } = tournament.tournament;
 
   return (
-    <Link href={`/${id}`}>
+    <Link href={`/${tournamentId}`}>
       <a
         onMouseOver={() => {
           if (!hovered) {
             setHovered(true);
-            queryClient.prefetchQuery(
-              ["tournament", { tournamentId: id }],
-              () => TournamentService.getById({ tournamentId: id.toString() })
+            queryClient.prefetchQuery(["tournament", { tournamentId }], () =>
+              TournamentService.getById({
+                tournamentId: tournamentId.toString(),
+              })
+            );
+            queryClient.prefetchQuery(["matches", { tournamentId }], () =>
+              MatchesService.getAll({
+                tournamentId: tournamentId.toString(),
+              })
+            );
+            queryClient.prefetchQuery(["participants", { tournamentId }], () =>
+              ParticipantsService.getAll({
+                tournamentId: tournamentId.toString(),
+              })
             );
           }
         }}
